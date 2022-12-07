@@ -1,0 +1,120 @@
+<template>
+  <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <div class="card-group">
+            <div class="card p-4">
+              <div class="card-body">
+                <Form @submit="onSubmit">
+                  <h1>Login</h1>
+                  <p class="text-medium-emphasis">Sign In to your account</p>
+                  <div class="mb-3">
+                    <div class="input-group ">
+                      <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512" role="img">undefined<path fill="var(--ci-primary-color, currentColor)" d="M411.6,343.656l-72.823-47.334,27.455-50.334A80.23,80.23,0,0,0,376,207.681V128a112,112,0,0,0-224,0v79.681a80.236,80.236,0,0,0,9.768,38.308l27.455,50.333L116.4,343.656A79.725,79.725,0,0,0,80,410.732V496H448V410.732A79.727,79.727,0,0,0,411.6,343.656ZM416,464H112V410.732a47.836,47.836,0,0,1,21.841-40.246l97.66-63.479-41.64-76.341A48.146,48.146,0,0,1,184,207.681V128a80,80,0,0,1,160,0v79.681a48.146,48.146,0,0,1-5.861,22.985L296.5,307.007l97.662,63.479h0A47.836,47.836,0,0,1,416,410.732Z" class="ci-primary"></path></svg>
+                      </span>
+                      <Field v-model="email" placeholder="Email" name="email" autocomplete="Email" class="form-control" :rules="validateEmail" />
+                    </div>
+                    <ErrorMessage name="email" class="error-message"/>
+                  </div>
+                  <div class="mb-4">
+                    <div class="input-group ">
+                      <span class="input-group-text">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512" role="img">undefined<path fill="var(--ci-primary-color, currentColor)" d="M411.6,343.656l-72.823-47.334,27.455-50.334A80.23,80.23,0,0,0,376,207.681V128a112,112,0,0,0-224,0v79.681a80.236,80.236,0,0,0,9.768,38.308l27.455,50.333L116.4,343.656A79.725,79.725,0,0,0,80,410.732V496H448V410.732A79.727,79.727,0,0,0,411.6,343.656ZM416,464H112V410.732a47.836,47.836,0,0,1,21.841-40.246l97.66-63.479-41.64-76.341A48.146,48.146,0,0,1,184,207.681V128a80,80,0,0,1,160,0v79.681a48.146,48.146,0,0,1-5.861,22.985L296.5,307.007l97.662,63.479h0A47.836,47.836,0,0,1,416,410.732Z" class="ci-primary"></path></svg>
+                      </span>
+                      <Field v-model="password" placeholder="Password" name="password" autocomplete="current-password" class="form-control" type="password" :rules="validatePassword" />
+                    </div>
+                    <ErrorMessage name="password" class="error-message"/>
+                  </div>
+                  <div class="row">
+                    <div class="col-6">
+                      <button class="btn btn-primary px-4">Sign in</button>
+                    </div>
+                    <div class="col-6 text-right">
+                      <button class="btn btn-link px-0" type="button"> Forgot password? </button>
+                    </div>
+                  </div>
+                  <span class="error-message">{{ loginFailedMessage }}</span>
+                </Form>
+              </div>
+            </div>
+            <div class="card text-white bg-primary py-5" style="width: 44%;">
+              <div class="card-body text-center">
+                <div>
+                  <h2>Sign up</h2>
+                  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
+                  <button class="btn btn-outline-light mt-3" type="button"> Register Now! </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import { Form, Field, ErrorMessage } from "vee-validate";
+  export default {
+    components: { Form, Field, ErrorMessage },
+    data() {
+      return {
+        email: '',
+        password: '',
+        loginFailedMessage: ''
+      } 
+    },
+    methods: {
+      async login() {
+        try {
+          await this.$withoutAuth.post('/api/v1/authen', {email: this.email, password: this.password}).then((response) => {
+            if(!response.data.json.error){
+              window.localStorage.setItem('token', response.data.json.token);
+              this.$router.push('/')
+            } else {
+              this.loginFailedMessage = 'Email or password is wrong'
+              return;
+            }
+          })
+        } catch (error) {
+          console.log(error)
+        }
+      },
+
+      onSubmit() {
+        this.login()
+      },
+
+      validateEmail(value) {
+        this.loginFailedMessage = ''
+        if (!value) {
+          return 'This field is required';
+        }
+        const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+        if (!regex.test(value)) {
+          return 'This field must be a valid email';
+        }
+        return true;
+      },
+
+      validatePassword(value) {
+        this.loginFailedMessage = ''
+        if (!value) {
+          return 'This field is required';
+        }
+        if (value.length < 6) {
+          return 'Password must be at least 6 characters';
+        }
+        return true;
+      },
+    },
+  }
+</script>
+
+<style scoped>
+  .error-message {
+    color: red;
+  }
+</style>

@@ -40,7 +40,7 @@
       <CDropdownItem>
         <CIcon icon="cil-shield-alt" /> Lock Account
       </CDropdownItem>
-      <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
+      <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>
@@ -49,6 +49,12 @@
 import avatar from '@/assets/logo.png'
 export default {
   name: 'AppHeaderDropdownAccnt',
+  methods: {
+    logout() {
+      window.localStorage.setItem('token', '');
+      this.$router.push('/login')
+    },
+  },
   setup() {
     return {
       avatar: avatar,
