@@ -1,7 +1,7 @@
 <template>
   <div class="row">
     <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="() => { visibleLiveDemo = true }">Create Staff</a></div>
+      <div><a class="btn btn-primary" href="#" @click="() => { visibleModal = true }">Create Staff</a></div>
     </div>
     <div class="col-md-12">
       <div class="mt-3">
@@ -9,27 +9,27 @@
           <li class="d-flex justify-content-between">
             <div class="d-flex flex-row align-items-center">
               <div class="ml-2">
-                <a href="#">Email</a>
+                <a href="#">Name</a>
               </div>
             </div>
             <div class="d-flex flex-row align-items-center">
-              <span>Name</span>
+              <span>Email</span>
             </div>
           </li>
         </ul>
       </div>
     </div>
   </div>
-  <CModal alignment="center" :visible="visibleLiveDemo" @close="() => { visibleLiveDemo = false }">
+  <CModal alignment="center" :visible="visibleModal" @close="() => { visibleModal = false }">
     <CModalHeader>
-      <CModalTitle>Modal title</CModalTitle>
+      <CModalTitle>Form create staff</CModalTitle>
     </CModalHeader>
-    <CModalBody>Woohoo, you're reading this text in a modal!</CModalBody>
+    <CModalBody>Form content</CModalBody>
     <CModalFooter>
-      <CButton color="secondary" @click="() => { visibleLiveDemo = false }">
+      <CButton color="secondary" @click="() => { visibleModal = false }">
         Close
       </CButton>
-      <CButton color="primary">Save changes</CButton>
+      <CButton color="primary">Save</CButton>
     </CModalFooter>
   </CModal>
 </template>
@@ -39,26 +39,11 @@ export default {
   name: 'ListStaffs',
   data() {
     return { 
-      visibleLiveDemo: false,
+      visibleModal: false,
     }
   }
 }
 </script>
-<style>
-
-.list-group li {
-  margin-bottom: 12px;
-}
-
-.list-group-item {
-}
-
-.list li {
-  list-style: none;
-  padding: 10px;
-  border: 1px solid #e3dada;
-  margin-top: 12px;
-  border-radius: 5px;
-  background: #fff;
-}
+<style lang="scss" scoped>
+  @import '@/styles/admin/list_staffs'
 </style>
