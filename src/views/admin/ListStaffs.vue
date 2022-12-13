@@ -24,7 +24,7 @@
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
-      <CModalTitle>Form create staff</CModalTitle>
+      <CModalTitle>Modal title</CModalTitle>
     </CModalHeader>
     <form class="needs-validation">
       <CModalBody>
@@ -89,6 +89,21 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-  @import '@/styles/admin/list_staffs'
+<style>
+
+.list-group li {
+  margin-bottom: 12px;
+}
+
+.list-group-item {
+}
+
+.list li {
+  list-style: none;
+  padding: 10px;
+  border: 1px solid #e3dada;
+  margin-top: 12px;
+  border-radius: 5px;
+  background: #fff;
+}
 </style>
