@@ -1,27 +1,8 @@
 <template>
   <div class="row">
     <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="() => { visibleModal = true }">Create Staff</a></div>
+      <div><a class="btn btn-primary" href="#" @click="openModal()">Create Staff</a></div>
     </div>
-    <!-- <div v-if="staffList.length > 0">
-      <div class="col-md-12">
-        <div class="mt-3">
-          <ul class="list list-inline">
-            <li class="d-flex justify-content-between" v-for="staff in staffList" v-bind:key="staff">
-              <div class="d-flex flex-row align-items-center">
-                <div class="ml-2">
-                  <a href="#">{{staff['name']}}</a>
-                </div>
-              </div>
-              <div class="d-flex flex-row align-items-center">
-                <span>{{staff['email']}}</span>
-              </div>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div v-else><span>Don't have any staff yet</span></div> -->
   </div>
   <div class="responsive-table">
     <div class="table-header row">
@@ -41,30 +22,30 @@
     </div>
     <div class="p-8"></div>
   </div>
-  <CModal alignment="center" :visible="visibleModal" @close="() => { visibleModal = false }">
+  <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
       <CModalTitle>Form create staff</CModalTitle>
     </CModalHeader>
-    <form @submit="createStaff()">
+    <form class="needs-validation">
       <CModalBody>
         <div class="mb-3">
           <label for="staffEmail" class="form-label">Email address</label>
-          <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="staff.email">
+          <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="newStaff.email">
         </div>
         <div class="mb-3">
           <label for="staffName" class="form-label">Staff name</label>
-          <input type="name" class="form-control" id="staffName" v-model="staff.name">
+          <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
         </div>
         <div class="mb-3">
           <label for="staffPassword" class="form-label">Passwords</label>
-          <input type="password" class="form-control" id="staffPassword" v-model="staff.password">
+          <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
         </div>
       </CModalBody>
       <CModalFooter>
-        <CButton color="secondary" @click="() => { visibleModal = false }">
+        <CButton color="secondary" @click="closeModal()">
           Close
         </CButton>
-        <CButton type="submit" color="primary">Save</CButton>
+        <CButton type="submit" color="primary" @click="submitStaffForm()">Save</CButton>
       </CModalFooter>
     </form>
   </CModal>
@@ -77,13 +58,17 @@ export default {
   name: 'ListStaffs',
   data() {
     return { 
-      visibleModal: false,
+      newStaff: {
+        email: '',
+        name: '',
+        password: ''
+  },
     }
   },
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
-      staff: 'adminStaffs/staff',
+      visibleModal: 'adminStaffs/visibleModal',
     }),
   },
 
@@ -91,14 +76,16 @@ export default {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
+      closeModal: 'adminStaffs/closeModal',
+      openModal:'adminStaffs/openModal',
     }),
-    staff_info(){
-      // console.log(staff);
+    submitStaffForm(){
+      this.createStaff(this.newStaff);
+      this.newStaff = { email: '', name: '', password: '' }
     }
   },
   mounted() {
     this.getStaffList();
-    // this.createStaff();
   }
 }
 </script>

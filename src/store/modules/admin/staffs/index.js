@@ -1,27 +1,23 @@
 import axios from "axios";
-import { useRouter } from 'vue-router'
 
 
 const STAFF_LIST = 'STAFF_LIST';
-// const STAFF = 'STAFF';
-const router = useRouter();
 
 const state = {
   staff_list: [],
-  staff: {
-    email: '',
-    name: '',
-    password: ''
-  }
+  visible_modal: false,
 };
 
 export const mutations = {
   [STAFF_LIST] (state, data) {
     state.staff_list = data;
   },
-  // [STAFF] (state, data) {
-  //   state.staff.email = data;
-  // }
+  closeModal(state) {
+    state.visible_modal = false;
+  },
+  openModal(state) {
+    state.visible_modal = true;
+  },
 };
 
 export const actions = {
@@ -33,26 +29,25 @@ export const actions = {
       console.error(error)
     })
   },
-  createStaff({ state }) {
-    axios.post('http://localhost:3000/api/v1/create_staff', {
-      email: state.staff.email,
-      name: state.staff.name,
-      password: state.staff.password,
-    }).then((response) => {
-      let staff = response.data
-      // commit(STAFF, staff);
-      if(staff.success) {
-        router.push({name: 'Home'})
-      }
+  createStaff({ commit, dispatch }, newStaff) {
+    axios.post('http://localhost:3000/api/v1/create_staff', { staff: newStaff }).then(() => {
+      dispatch('getList');
+      commit('closeModal');
     }).catch(error => {
       console.error(error)
     })
   },
+  closeModal({ commit }) {
+    commit('closeModal')
+  },
+  openModal({ commit }) {
+    commit('openModal')
+  }
 };
 
 export const getters = {
   staffList: state => state.staff_list,
-  staff: state => state.staff,
+  visibleModal: state => state.visible_modal,
 };
 
 export default {
