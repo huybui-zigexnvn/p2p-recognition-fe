@@ -1,12 +1,34 @@
-.list-group li {
-  margin-bottom: 12px;
-}
+.responsive-table{
+  .table-row{
+    background-color:#fff;
+    box-shadow:0 0 9px 0 rgba(0,0,0,.1);
+    padding-left: inherit;
+    color: #98A7BA;
+    border-radius: 15px;
+    padding: 10px 15px;
+    display:flex;
+    justify-content:space-between;
+    margin: 0px 0px 10px 0px;
+  }
+  .form-control:focus {
+    box-shadow: none;
+  }
+  
+  .form-control-underlined {
+    border-width: 0;
+    border-bottom-width: 1px;
+    border-radius: 0;
+    padding-left: 0;
+  }
 
-.list li {
-  list-style: none;
-  padding: 10px;
-  border: 1px solid #e3dada;
-  margin-top: 12px;
-  border-radius: 5px;
-  background: #fff;
+  #buttomsedit{
+    border-radius: 20px 20px 20px 20px;
+    background-color: #545bb1;
+    border-color: #545bb1;
+  }
+
+  .table-header{
+    padding-left: inherit;
+    margin: 15px;
+  }
 }
