@@ -71,7 +71,9 @@ export default {
       visibleModal: 'adminStaffs/visibleModal',
     }),
   },
-
+  created() {
+    this.getStaffList()
+  },
   methods: {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
