@@ -7,11 +7,14 @@ import CIcon from '@coreui/icons-vue'
 import { iconsSet as icons } from '@/assets/icons'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import "vue-awesome-paginate/dist/style.css"
+import VueAwesomePaginate from "vue-awesome-paginate"
 
 const app = createApp(App)
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)
+app.use(VueAwesomePaginate)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.mount('#app')

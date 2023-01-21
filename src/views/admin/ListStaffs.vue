@@ -1,5 +1,18 @@
 <template>
-  <div class="row">
+  <div class="row d-flex">
+    <div class="input-group d-flex">
+      <div class="form-outline form-search">
+        <input type="search" class="form-control" placeholder="Search" v-model="searchValue" />
+        <!-- <CIcon icon="cilSearch" size="xl" /> -->
+      </div>
+    </div>
+    <div class="select-pagination">
+      <select class="form-select" @change="selectItemsPerPage($event)">
+        <option value="5">perpage 5</option>
+        <option value="10">perpage 10</option>
+        <option value="15">perpage 15</option>
+      </select>
+    </div>
     <div class="d-flex justify-content-end align-items-center activity">
       <div><a class="btn btn-primary" href="#" @click="openModal()">Create Staff</a></div>
     </div>
@@ -10,7 +23,7 @@
       <div class="col col-5">User Name</div>
       <div class="col col-5">Email</div>
     </div>
-    <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
+    <div class="table-row row" data-url="" v-for="staff in filteredStaffs" :key="staff">
       <div class="col col-2 text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -20,6 +33,15 @@
       <div class="col col-5">{{staff['name']}}</div>
       <div class="col col-5">{{staff['email']}}</div>
     </div>
+    <div class="example-one">
+    <vue-awesome-paginate
+      :total-items="staffList.length"
+      :items-per-page="perPage"
+      :max-pages-shown="5"
+      v-model="currentPage"
+      :on-click="onClickHandler"
+    />
+  </div>
     <div class="p-8"></div>
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
@@ -53,23 +75,40 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import { ref } from "vue";
 
 export default {
   name: 'ListStaffs',
+  setup() {
+    const currentPage = ref(1);
+    return {
+      currentPage,
+    };
+  },
+
   data() {
     return { 
       newStaff: {
         email: '',
         name: '',
         password: ''
-  },
+      },
+      searchValue: '',
+      perPage: 5,
+      totalItems: [],
     }
   },
+
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
       visibleModal: 'adminStaffs/visibleModal',
     }),
+    filteredStaffs() {
+      return this.paginationItems(this.staffList, this.perPage)[this.currentPage - 1].filter((staff) =>
+        staff.name.toLowerCase().includes(this.searchValue.toLowerCase()) || staff.email.toLowerCase().includes(this.searchValue.toLowerCase())
+      )
+    }
   },
 
   methods: {
@@ -82,11 +121,30 @@ export default {
     submitStaffForm(){
       this.createStaff(this.newStaff);
       this.newStaff = { email: '', name: '', password: '' }
+    },
+    onClickHandler(){
+    },
+    selectItemsPerPage(e){
+      this.perPage = parseInt(e.target.value)
+    },
+    paginationItems(items, perPage){
+      var temporal = [];
+
+        for (var i = 0; i < items.length; i+= perPage){
+            temporal.push(items.slice(i,i+perPage));
+        }
+
+      return temporal;
     }
   },
-  mounted() {
+
+  created() {
     this.getStaffList();
-  }
+  },
+
+  mounted() {
+    // this.paginationItems(this.staffList, this.perPage);
+  },
 }
 </script>
 <style lang="scss" scoped>
