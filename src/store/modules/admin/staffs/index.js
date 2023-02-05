@@ -21,8 +21,13 @@ export const mutations = {
 };
 
 export const actions = {
-  async getList({ commit }) {
-    axios.get('http://localhost:3000/api/v1/staffs').then((response) => {
+  async getList({ commit }, pageNumber, perPage) {
+    if(perPage == undefined) {
+      perPage = 5
+    }
+    axios.get('http://localhost:3000/api/v1/staffs', { params: { page: pageNumber, per_page: perPage } }).then((response) => {
+      console.log(pageNumber)
+      console.log(perPage)
       let staffList = response.data
       commit(STAFF_LIST, staffList);
     }).catch(error => {

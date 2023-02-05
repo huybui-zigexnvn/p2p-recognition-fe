@@ -105,7 +105,7 @@ export default {
       visibleModal: 'adminStaffs/visibleModal',
     }),
     filteredStaffs() {
-      return this.paginationItems(this.staffList, this.perPage)[this.currentPage - 1].filter((staff) =>
+      return this.staffList.filter((staff) =>
         staff.name.toLowerCase().includes(this.searchValue.toLowerCase()) || staff.email.toLowerCase().includes(this.searchValue.toLowerCase())
       )
     }
@@ -126,6 +126,7 @@ export default {
     },
     selectItemsPerPage(e){
       this.perPage = parseInt(e.target.value)
+      this.getStaffList(this.currentPage, this.perPage)
     },
     paginationItems(items, perPage){
       var temporal = [];
@@ -139,7 +140,7 @@ export default {
   },
 
   created() {
-    this.getStaffList();
+    this.getStaffList(this.currentPage);
   },
 
   mounted() {
