@@ -22,7 +22,7 @@ export const mutations = {
 
 export const actions = {
   async getList({ commit }) {
-    axios.get(`${process.env.VUE_APP_API_URL}/api/v1/staffs`).then((response) => {
+    axios.get('http://localhost:3000/api/v1/staffs').then((response) => {
       let staffList = response.data
       commit(STAFF_LIST, staffList);
     }).catch(error => {
@@ -30,7 +30,7 @@ export const actions = {
     })
   },
   createStaff({ commit, dispatch }, newStaff) {
-    axios.post(`${process.env.VUE_APP_API_URL}/api/v1/create_staff`, { staff: newStaff }).then(() => {
+    axios.post('http://localhost:3000/api/v1/create_staff', { staff: newStaff }).then(() => {
       dispatch('getList');
       commit('closeModal');
     }).catch(error => {
