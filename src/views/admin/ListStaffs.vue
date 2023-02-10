@@ -31,14 +31,12 @@
         <div class="mb-3">
           <label for="staffEmail" class="form-label">{{ $t('admin.list_staff.form_create.email') }}</label>
           <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="newStaff.email">
+          <InvalidFieldErrorMessage errorField="email" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
         <div class="mb-3">
           <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
-        </div>
-        <div class="mb-3">
-          <label for="staffPassword" class="form-label">{{ $t('admin.list_staff.form_create.password') }}</label>
-          <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
+          <InvalidFieldErrorMessage errorField="userName" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
       </CModalBody>
       <CModalFooter>
@@ -54,17 +52,19 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import StaffApi from "@/backend/admin/staffs";
+import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 
 export default {
   name: 'ListStaffs',
+  components: { InvalidFieldErrorMessage },
   data() {
     return {
       newStaff: {
         email: '',
-        name: '',
-        password: ''
+        name: ''
       },
-      visibleModal: false
+      visibleModal: false,
+      errorMessages: {}
     }
   },
   computed: {
@@ -82,10 +82,10 @@ export default {
       let self = this;
       StaffApi.create(this.newStaff).then(() => {
         self.getStaffList()
-        this.newStaff = { email: '', name: '', password: '' }
+        this.newStaff = { email: '', name: '' }
         this.closeModal()
       }).catch(error => {
-        console.error(error)
+        this.errorMessages = error.response.data.message
       })
     },
     closeModal() {
