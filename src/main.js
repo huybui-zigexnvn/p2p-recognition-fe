@@ -7,6 +7,10 @@ import CIcon from '@coreui/icons-vue'
 import { iconsSet as icons } from '@/assets/icons'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import ApiService from "@/backend/api_services";
+
+const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
+ApiService.init(API_URL);
 
 const app = createApp(App)
 app.use(store)
