@@ -22,7 +22,6 @@ export default {
   setup() {
     return {
       avatar: avatar,
-      itemsCount: 42,
     }
   },
 }
