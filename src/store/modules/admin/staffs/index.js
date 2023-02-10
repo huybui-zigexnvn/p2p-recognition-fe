@@ -3,20 +3,13 @@ import StaffApi from "@/backend/admin/staffs";
 const STAFF_LIST = 'STAFF_LIST';
 
 const state = {
-  staff_list: [],
-  visible_modal: false,
+  staff_list: []
 };
 
 export const mutations = {
   [STAFF_LIST] (state, data) {
     state.staff_list = data;
-  },
-  closeModal(state) {
-    state.visible_modal = false;
-  },
-  openModal(state) {
-    state.visible_modal = true;
-  },
+  }
 };
 
 export const actions = {
@@ -27,26 +20,11 @@ export const actions = {
     }).catch(error => {
       console.error(error)
     })
-  },
-  createStaff({ commit, dispatch }, newStaff) {
-    StaffApi.create(newStaff).then(() => {
-      dispatch('getList');
-      commit('closeModal');
-    }).catch(error => {
-      console.error(error)
-    })
-  },
-  closeModal({ commit }) {
-    commit('closeModal')
-  },
-  openModal({ commit }) {
-    commit('openModal')
   }
 };
 
 export const getters = {
   staffList: state => state.staff_list,
-  visibleModal: state => state.visible_modal,
 };
 
 export default {
