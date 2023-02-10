@@ -36,7 +36,7 @@
         <div class="mb-3">
           <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
-          <InvalidFieldErrorMessage errorField="userName" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
+          <InvalidFieldErrorMessage errorField="name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
       </CModalBody>
       <CModalFooter>
@@ -82,6 +82,7 @@ export default {
       StaffApi.create(this.newStaff).then(() => {
         this.getStaffList()
         this.newStaff = { email: '', name: '' }
+        this.errorMessages = {}
         this.closeModal()
       }).catch(error => {
         this.errorMessages = error.response.data.message
