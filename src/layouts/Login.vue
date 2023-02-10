@@ -6,7 +6,7 @@
           <div class="card-group">
             <div class="card p-4">
               <div class="card-body">
-                <Form @submit="onSubmit">
+                <form @submit="onSubmit">
                   <h1>Login</h1>
                   <p class="text-medium-emphasis">Sign In to your account</p>
                   <div class="mb-3">
@@ -14,18 +14,20 @@
                       <span class="input-group-text">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512" role="img">undefined<path fill="var(--ci-primary-color, currentColor)" d="M411.6,343.656l-72.823-47.334,27.455-50.334A80.23,80.23,0,0,0,376,207.681V128a112,112,0,0,0-224,0v79.681a80.236,80.236,0,0,0,9.768,38.308l27.455,50.333L116.4,343.656A79.725,79.725,0,0,0,80,410.732V496H448V410.732A79.727,79.727,0,0,0,411.6,343.656ZM416,464H112V410.732a47.836,47.836,0,0,1,21.841-40.246l97.66-63.479-41.64-76.341A48.146,48.146,0,0,1,184,207.681V128a80,80,0,0,1,160,0v79.681a48.146,48.146,0,0,1-5.861,22.985L296.5,307.007l97.662,63.479h0A47.836,47.836,0,0,1,416,410.732Z" class="ci-primary"></path></svg>
                       </span>
-                      <Field v-model="email" placeholder="Email" name="email" autocomplete="Email" class="form-control" :rules="validateEmail" />
+                      <input v-model="email" placeholder="Email" class="form-control" name="email" required />
                     </div>
-                    <ErrorMessage name="email" class="error-message"/>
+                    <div class="error-message" v-if="errorMessages.email">{{ errorMessages.email }}</div>
                   </div>
                   <div class="mb-4">
                     <div class="input-group ">
                       <span class="input-group-text">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 512 512" role="img">undefined<path fill="var(--ci-primary-color, currentColor)" d="M411.6,343.656l-72.823-47.334,27.455-50.334A80.23,80.23,0,0,0,376,207.681V128a112,112,0,0,0-224,0v79.681a80.236,80.236,0,0,0,9.768,38.308l27.455,50.333L116.4,343.656A79.725,79.725,0,0,0,80,410.732V496H448V410.732A79.727,79.727,0,0,0,411.6,343.656ZM416,464H112V410.732a47.836,47.836,0,0,1,21.841-40.246l97.66-63.479-41.64-76.341A48.146,48.146,0,0,1,184,207.681V128a80,80,0,0,1,160,0v79.681a48.146,48.146,0,0,1-5.861,22.985L296.5,307.007l97.662,63.479h0A47.836,47.836,0,0,1,416,410.732Z" class="ci-primary"></path></svg>
                       </span>
-                      <Field v-model="password" placeholder="Password" name="password" autocomplete="current-password" class="form-control" type="password" :rules="validatePassword" />
+                      <input v-model="password" placeholder="Password" class="form-control" type="password" name="password" required />
+                      <span>{{ password }}</span>
+
                     </div>
-                    <ErrorMessage name="password" class="error-message"/>
+                    <div class="error-message" v-if="errorMessages.password">{{ errorMessages.password }}</div>
                   </div>
                   <div class="row">
                     <div class="col-6">
@@ -36,7 +38,7 @@
                     </div>
                   </div>
                   <span class="error-message">{{ this.loginFailedMessage }}</span>
-                </Form>
+                </form>
               </div>
             </div>
             <div class="card text-white logo-area" style="width: 44%;">
@@ -50,19 +52,25 @@
 </template>
 
 <script>
-  import { Form, Field, ErrorMessage } from "vee-validate";
   import AuthApi from "@/backend/auth";
 
   export default {
-    components: { Form, Field, ErrorMessage },
     data() {
       return {
         email: '',
         password: '',
-        loginFailedMessage: ''
+        loginFailedMessage: '',
+        errorMessages: []
       } 
     },
-    computed: {
+    watch: {
+      email(value){
+        this.validateEmail(value)
+      },
+
+      password(value){
+        this.validatePassword(value)
+      }
     },
     methods: {
       async login() {
@@ -87,23 +95,21 @@
 
       validateEmail(value) {
         this.loginFailedMessage = ''
-        if (!value) {
-          return 'This field is required';
-        }
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if (!regex.test(value)) {
-          return 'This field must be a valid email';
+          this.errorMessages['email'] = 'This field must be a valid email';
+        }else {
+          this.errorMessages['email'] = '';
         }
         return true;
       },
 
       validatePassword(value) {
         this.loginFailedMessage = ''
-        if (!value) {
-          return 'This field is required';
-        }
         if (value.length < 6) {
-          return 'Password must be at least 6 characters';
+          this.errorMessages['password'] = 'Password must be at least 6 characters'
+        } else {
+          this.errorMessages['password'] = '';
         }
         return true;
       },
