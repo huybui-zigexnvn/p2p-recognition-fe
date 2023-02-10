@@ -5,12 +5,12 @@
     </CDropdownToggle>
     <CDropdownMenu class="pt-0">
       <CDropdownHeader component="h6" class="bg-light fw-semibold py-2">
-        Settings
+        {{ $t('header.settings') }}
       </CDropdownHeader>
-      <CDropdownItem> <CIcon icon="cil-user" /> Profile </CDropdownItem>
-      <CDropdownItem> <CIcon icon="cil-settings" /> Settings </CDropdownItem>
+      <CDropdownItem> <CIcon icon="cil-user" /> {{ $t('header.settings') }} </CDropdownItem>
+      <CDropdownItem> <CIcon icon="cil-settings" /> {{ $t('header.profile') }} </CDropdownItem>
       <CDropdownDivider />
-      <CDropdownItem> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
+      <CDropdownItem> <CIcon icon="cil-lock-locked" /> {{ $t('header.logout') }} </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>

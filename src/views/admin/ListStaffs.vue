@@ -1,14 +1,14 @@
 <template>
   <div class="row">
     <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="openModal()">Create Staff</a></div>
+      <div><a class="btn btn-primary" href="#" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</a></div>
     </div>
   </div>
   <div class="responsive-table">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-5">User Name</div>
-      <div class="col col-5">Email</div>
+      <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
+      <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -24,28 +24,28 @@
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
-      <CModalTitle>Form create staff</CModalTitle>
+      <CModalTitle>{{ $t('admin.list_staff.form_create.title') }}</CModalTitle>
     </CModalHeader>
     <form class="needs-validation">
       <CModalBody>
         <div class="mb-3">
-          <label for="staffEmail" class="form-label">Email address</label>
+          <label for="staffEmail" class="form-label">{{ $t('admin.list_staff.form_create.email') }}</label>
           <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="newStaff.email">
         </div>
         <div class="mb-3">
-          <label for="staffName" class="form-label">Staff name</label>
+          <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
         </div>
         <div class="mb-3">
-          <label for="staffPassword" class="form-label">Passwords</label>
+          <label for="staffPassword" class="form-label">{{ $t('admin.list_staff.form_create.password') }}</label>
           <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
         </div>
       </CModalBody>
       <CModalFooter>
         <CButton color="secondary" @click="closeModal()">
-          Close
+          {{ $t('admin.list_staff.form_create.close') }}
         </CButton>
-        <CButton type="submit" color="primary" @click="submitStaffForm()">Save</CButton>
+        <CButton type="submit" color="primary" @click="submitStaffForm()">{{ $t('admin.list_staff.form_create.save') }}</CButton>
       </CModalFooter>
     </form>
   </CModal>
