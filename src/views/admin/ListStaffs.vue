@@ -45,7 +45,7 @@
         <CButton color="secondary" @click="closeModal()">
           {{ $t('admin.list_staff.form_create.close') }}
         </CButton>
-        <CButton type="submit" color="primary" @click="submitStaffForm()">{{ $t('admin.list_staff.form_create.save') }}</CButton>
+        <CButton color="primary" @click="submitStaffForm()">{{ $t('admin.list_staff.form_create.save') }}</CButton>
       </CModalFooter>
     </form>
   </CModal>
@@ -53,22 +53,23 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import StaffApi from "@/backend/admin/staffs";
 
 export default {
   name: 'ListStaffs',
   data() {
-    return { 
+    return {
       newStaff: {
         email: '',
         name: '',
         password: ''
-  },
+      },
+      visibleModal: false
     }
   },
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
-      visibleModal: 'adminStaffs/visibleModal',
     }),
   },
 
@@ -76,12 +77,21 @@ export default {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
-      closeModal: 'adminStaffs/closeModal',
-      openModal:'adminStaffs/openModal',
     }),
     submitStaffForm(){
-      this.createStaff(this.newStaff);
-      this.newStaff = { email: '', name: '', password: '' }
+      StaffApi.create(this.newStaff).then(() => {
+        this.getStaffList()
+        this.newStaff = { email: '', name: '', password: '' }
+        this.closeModal()
+      }).catch(error => {
+        console.error(error)
+      })
+    },
+    closeModal() {
+      this.visibleModal = false
+    },
+    openModal() {
+      this.visibleModal = true
     }
   },
   mounted() {
