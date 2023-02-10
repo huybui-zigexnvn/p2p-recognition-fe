@@ -1,0 +1,24 @@
+{
+  "admin": {
+    "list_staff": {
+      "home": "Home",
+      "list_staff": "List Staff",
+      "create_staff": "Add Staff",
+      "staff_name": "Staff Name",
+      "email": "Email",
+      "form_create": {
+        "title": "Add Staff",
+        "email": "Email Address",
+        "staff_name": "Staff Name",
+        "password": "Passwords",
+        "close": "Close",
+        "save": "Save"
+      }
+    }
+  },
+  "header": {
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  }
+}

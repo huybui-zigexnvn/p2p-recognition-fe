@@ -1,0 +1,24 @@
+{
+  "admin": {
+    "list_staff": {
+      "home": "Trang chủ",
+      "list_staff": "Danh sách nhân viên",
+      "create_staff": "Thêm nhân viên",
+      "staff_name": "Tên nhân viên",
+      "email": "Email",
+      "form_create": {
+        "title": "Thêm nhân viên",
+        "email": "Địa chỉ email",
+        "staff_name": "Tên nhân viên",
+        "password": "Mật khẩu",
+        "close": "Đóng",
+        "save": "Lưu"
+      }
+    }
+  },
+  "header": {
+    "settings": "Cài Đặt",
+    "profile": "Thông tin cá nhân",
+    "logout": "Đăng Xuất"
+  }
+}
