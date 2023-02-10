@@ -1,20 +1,22 @@
 const state = {
-  auth: {
-    isAuthenticated: window.localStorage.getItem('token') !== null
-  }
+  loginFailedMessage: ''
 }
 
 const getters = {
-  isAuthenticated: state => state.auth.isAuthenticated
+  loginFailedMessage: state => state.loginFailedMessage,
+  isAuthenticated: state => state.auth
 }
 
-const actions = {}
+const actions = {
+  setLoginFailedMessage({commit}){
+    commit('setLoginFailedMessage')
+  }
+}
 
 const mutations = {
-  LOGOUT(state) {
-    state.auth.isAuthenticated = !state.auth.isAuthenticated
-    window.localStorage.removeItem('token');
-  },
+  setLoginFailedMessage(state) {
+    state.loginFailedMessage = 'Email or password is wrong'
+  }
 }
 
 export default {

@@ -57,16 +57,20 @@
 
 <script>
   import { Form, Field, ErrorMessage } from "vee-validate";
+  import { mapActions, mapGetters } from "vuex";
   export default {
     components: { Form, Field, ErrorMessage },
     data() {
       return {
         email: '',
-        password: '',
-        loginFailedMessage: ''
+        password: ''
       } 
     },
+    computed: {
+      ...mapGetters(['loginFailedMessage']),
+    },
     methods: {
+      ...mapActions(['setLoginFailedMessage']),
       async login() {
         try {
           await this.$withoutAuth.post('/api/v1/authen', {email: this.email, password: this.password}).then((response) => {
@@ -74,7 +78,7 @@
               window.localStorage.setItem('token', response.data.json.token);
               this.$router.push('/')
             } else {
-              this.loginFailedMessage = 'Email or password is wrong'
+              this.setLoginFailedMessage()
               return;
             }
           })
