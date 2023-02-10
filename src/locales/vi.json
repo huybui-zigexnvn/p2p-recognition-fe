@@ -20,5 +20,8 @@
     "settings": "Cài Đặt",
     "profile": "Thông tin cá nhân",
     "logout": "Đăng Xuất"
+  },
+  "login": {
+    "login_failed": "Sai email hoặc mật khẩu"
   }
 }

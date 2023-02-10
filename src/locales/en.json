@@ -20,5 +20,8 @@
     "settings": "Settings",
     "profile": "Profile",
     "logout": "Logout"
+  },
+  "login": {
+    "login_failed": "Email or password is wrong"
   }
 }

@@ -35,18 +35,12 @@
                       <button class="btn btn-link px-0" type="button"> Forgot password? </button>
                     </div>
                   </div>
-                  <span class="error-message">{{ loginFailedMessage }}</span>
+                  <span class="error-message">{{ this.loginFailedMessage }}</span>
                 </Form>
               </div>
             </div>
-            <div class="card text-white bg-primary py-5" style="width: 44%;">
-              <div class="card-body text-center">
-                <div>
-                  <h2>Sign up</h2>
-                  <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p>
-                  <button class="btn btn-outline-light mt-3" type="button"> Register Now! </button>
-                </div>
-              </div>
+            <div class="card text-white logo-area" style="width: 44%;">
+              <CImage fluid src="/logo-zigexn.png" />
             </div>
           </div>
         </div>
@@ -57,28 +51,28 @@
 
 <script>
   import { Form, Field, ErrorMessage } from "vee-validate";
-  import { mapActions, mapGetters } from "vuex";
+  import AuthApi from "@/backend/auth";
+
   export default {
     components: { Form, Field, ErrorMessage },
     data() {
       return {
         email: '',
-        password: ''
+        password: '',
+        loginFailedMessage: ''
       } 
     },
     computed: {
-      ...mapGetters(['loginFailedMessage']),
     },
     methods: {
-      ...mapActions(['setLoginFailedMessage']),
       async login() {
         try {
-          await this.$withoutAuth.post('/api/v1/authen', {email: this.email, password: this.password}).then((response) => {
+          await AuthApi.login({email: this.email, password: this.password}).then((response) => {
             if(!response.data.json.error){
               window.localStorage.setItem('token', response.data.json.token);
               this.$router.push('/')
             } else {
-              this.setLoginFailedMessage()
+              this.loginFailedMessage = this.$t('login.login_failed') 
               return;
             }
           })
@@ -120,5 +114,11 @@
 <style scoped>
   .error-message {
     color: red;
+  }
+  .logo-area {
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>

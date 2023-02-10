@@ -5,6 +5,10 @@ const ApiService = {
     axios.defaults.baseURL = baseURL;
     axios.interceptors.request.use(
       (config) => {
+        if(!!window.localStorage.getItem('token')){
+          config.Authorization = window.localStorage.getItem('token')
+        }
+        config.headers['Content-Type'] = 'application/json'
         return config;
       }
     );
