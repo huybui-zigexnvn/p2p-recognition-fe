@@ -79,9 +79,8 @@ export default {
       createStaff: 'adminStaffs/createStaff',
     }),
     submitStaffForm(){
-      let self = this;
       StaffApi.create(this.newStaff).then(() => {
-        self.getStaffList()
+        this.getStaffList()
         this.newStaff = { email: '', name: '' }
         this.closeModal()
       }).catch(error => {
