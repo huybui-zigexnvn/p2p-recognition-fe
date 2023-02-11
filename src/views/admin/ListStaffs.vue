@@ -1,8 +1,9 @@
 <template>
   <div class="d-flex">
-    <div class="input-group d-flex">
-      <div class="form-outline form-search">
-        <input class="form-control" placeholder="Search" v-model="searchValue" @keyup="searchStaff" />
+    <div class="input-group">
+      <div class="form-search d-flex align-items-center">
+        <CIcon icon="cilSearch" size="xl" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
     <div class="d-flex justify-content-end align-items-center">
