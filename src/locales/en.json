@@ -1,0 +1,40 @@
+{
+  "admin": {
+    "list_staff": {
+      "home": "Home",
+      "list_staff": "List Staff",
+      "create_staff": "Add Staff",
+      "staff_name": "Staff Name",
+      "email": "Email",
+      "search_placeholder": "Search...",
+      "form_create": {
+        "title": "Add Staff",
+        "email": "Email Address",
+        "staff_name": "Staff Name",
+        "password": "Passwords",
+        "close": "Close",
+        "save": "Save"
+      }
+    }
+  },
+  "header": {
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+  "login": {
+    "title": "Login",
+    "description": "Sign In to your account",
+    "sign_in": "Sign in",
+    "forgot_password": "Forgot password?",
+    "email": {
+      "placeholder": "Email",
+      "validate": "This field must be a valid email"
+    },
+    "password": {
+      "placeholder": "Password",
+      "validate": "Password must be at least 6 characters"
+    },
+    "login_failed": "Email or password is wrong"
+  }
+}

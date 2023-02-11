@@ -1,27 +1,20 @@
 <template>
-  <div class="row d-flex">
-    <div class="input-group d-flex">
-      <div class="form-outline form-search">
-        <input type="search" class="form-control" placeholder="Search" v-model="searchValue" />
-        <!-- <CIcon icon="cilSearch" size="xl" /> -->
+  <div class="d-flex">
+    <div class="input-group">
+      <div class="form-search d-flex align-items-center">
+        <CIcon icon="cilSearch" size="xl" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
-    <div class="select-pagination">
-      <select class="form-select" @change="selectItemsPerPage($event)">
-        <option value="5">perpage 5</option>
-        <option value="10">perpage 10</option>
-        <option value="15">perpage 15</option>
-      </select>
-    </div>
-    <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="openModal()">Create Staff</a></div>
+    <div class="d-flex justify-content-end align-items-center">
+      <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
   <div class="responsive-table">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-5">User Name</div>
-      <div class="col col-5">Email</div>
+      <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
+      <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in filteredStaffs" :key="staff">
       <div class="col col-2 text-center">
@@ -46,28 +39,28 @@
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
-      <CModalTitle>Form create staff</CModalTitle>
+      <CModalTitle>{{ $t('admin.list_staff.form_create.title') }}</CModalTitle>
     </CModalHeader>
     <form class="needs-validation">
       <CModalBody>
         <div class="mb-3">
-          <label for="staffEmail" class="form-label">Email address</label>
+          <label for="staffEmail" class="form-label">{{ $t('admin.list_staff.form_create.email') }}</label>
           <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="newStaff.email">
         </div>
         <div class="mb-3">
-          <label for="staffName" class="form-label">Staff name</label>
+          <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
         </div>
         <div class="mb-3">
-          <label for="staffPassword" class="form-label">Passwords</label>
+          <label for="staffPassword" class="form-label">{{ $t('admin.list_staff.form_create.password') }}</label>
           <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
         </div>
       </CModalBody>
       <CModalFooter>
         <CButton color="secondary" @click="closeModal()">
-          Close
+          {{ $t('admin.list_staff.form_create.close') }}
         </CButton>
-        <CButton type="submit" color="primary" @click="submitStaffForm()">Save</CButton>
+        <CButton color="primary" @click="submitStaffForm()">{{ $t('admin.list_staff.form_create.save') }}</CButton>
       </CModalFooter>
     </form>
   </CModal>
@@ -76,6 +69,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex';
 import { ref } from "vue";
+import StaffApi from "@/backend/admin/staffs";
 
 export default {
   name: 'ListStaffs',
@@ -87,7 +81,7 @@ export default {
   },
 
   data() {
-    return { 
+    return {
       newStaff: {
         email: '',
         name: '',
@@ -96,13 +90,14 @@ export default {
       searchValue: '',
       perPage: 5,
       totalItems: [],
+      visibleModal: false,
+      searchValue: ''
     }
   },
 
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
-      visibleModal: 'adminStaffs/visibleModal',
     }),
     filteredStaffs() {
       return this.staffList.filter((staff) =>
@@ -115,36 +110,39 @@ export default {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
-      closeModal: 'adminStaffs/closeModal',
-      openModal:'adminStaffs/openModal',
     }),
     submitStaffForm(){
-      this.createStaff(this.newStaff);
-      this.newStaff = { email: '', name: '', password: '' }
+      StaffApi.create(this.newStaff).then(() => {
+        this.getStaffList()
+        this.newStaff = { email: '', name: '', password: '' }
+        this.closeModal()
+      }).catch(error => {
+        console.error(error)
+      })
     },
-    onClickHandler(){
+    closeModal() {
+      this.visibleModal = false
     },
-    selectItemsPerPage(e){
-      this.perPage = parseInt(e.target.value)
-      this.getStaffList(this.currentPage, this.perPage)
+    openModal() {
+      this.visibleModal = true
     },
-    paginationItems(items, perPage){
-      var temporal = [];
-
-        for (var i = 0; i < items.length; i+= perPage){
-            temporal.push(items.slice(i,i+perPage));
-        }
-
-      return temporal;
+    searchStaff() {
+      let params 
+      if(this.searchValue == '') {
+        params = {}
+      } else{
+        params = { q: this.searchValue }
+      }
+      this.getStaffList(params)
     }
   },
 
   created() {
-    this.getStaffList(this.currentPage);
+    // this.getStaffList(this.currentPage);
   },
 
   mounted() {
-    // this.paginationItems(this.staffList, this.perPage);
+    this.getStaffList();
   },
 }
 </script>
