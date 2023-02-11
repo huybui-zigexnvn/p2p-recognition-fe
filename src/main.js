@@ -15,7 +15,6 @@ import en from "./locales/en.json";
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
 import {withAuth, withoutAuth} from './backend/axios'
-import * as VeeValidate from 'vee-validate'
 
 const app = createApp(App)
 
@@ -29,7 +28,6 @@ app.use(store)
 app.use(router)
 app.use(CoreuiVue)
 app.use(i18n)
-app.use(VeeValidate)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.mount('#app')
