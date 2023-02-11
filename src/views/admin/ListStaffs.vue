@@ -2,11 +2,11 @@
   <div class="d-flex">
     <div class="input-group d-flex">
       <div class="form-outline form-search">
-        <input type="search" class="form-control" placeholder="Search" v-model="searchValue" @keyup="searchStaff" />
+        <input class="form-control" placeholder="Search" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
     <div class="d-flex justify-content-end align-items-center">
-      <a class="btn btn-primary" href="#" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</a>
+      <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
   <div class="responsive-table">
