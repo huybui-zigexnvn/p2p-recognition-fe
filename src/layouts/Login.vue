@@ -7,8 +7,8 @@
             <div class="card p-4">
               <div class="card-body">
                 <form @submit.prevent="onSubmit">
-                  <h1>Login</h1>
-                  <p class="text-medium-emphasis">Sign In to your account</p>
+                  <h1>{{ $t('login.title') }}</h1>
+                  <p class="text-medium-emphasis">{{ $t('login.description    ') }}</p>
                   <div class="mb-3">
                     <div class="input-group ">
                       <span class="input-group-text">
@@ -30,10 +30,10 @@
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      <button class="btn btn-primary px-4">Sign in</button>
+                      <button class="btn btn-primary px-4">{{ $t('login.sign_in') }}</button>
                     </div>
                     <div class="col-6 text-right">
-                      <button class="btn btn-link px-0" type="button"> Forgot password? </button>
+                      <button class="btn btn-link px-0" type="button">{{ $t('login.forgot_password') }}</button>
                     </div>
                   </div>
                 </form>
@@ -74,12 +74,12 @@
       async login() {
         try {
           await AuthApi.login({email: this.email, password: this.password}).then((response) => {
-            if(!response.data.json.error){
-              window.localStorage.setItem('token', response.data.json.token);
-              this.$router.push('/')
-            } else {
+            if(response.data.json.error){
               this.loginFailedMessage = this.$t('login.validate.login_failed') 
               return;
+            } else {
+              window.localStorage.setItem('token', response.data.json.token);
+              this.$router.push('/')
             }
           })
         } catch (error) {

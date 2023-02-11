@@ -22,6 +22,10 @@
     "logout": "Logout"
   },
   "login": {
+    "title": "Login",
+    "description": "Sign In to your account",
+    "sign_in": "Sign in",
+    "forgot_password": "Forgot password?",
     "validate": {
       "email": "This field must be a valid email",
       "password": "Password must be at least 6 characters",

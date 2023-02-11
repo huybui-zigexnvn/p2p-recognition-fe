@@ -10,7 +10,7 @@
       <CDropdownItem> <CIcon icon="cil-user" /> {{ $t('header.settings') }} </CDropdownItem>
       <CDropdownItem> <CIcon icon="cil-settings" /> {{ $t('header.profile') }} </CDropdownItem>
       <CDropdownDivider />
-      <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> Logout </CDropdownItem>
+      <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> {{ $t('header.logout') }} </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>
