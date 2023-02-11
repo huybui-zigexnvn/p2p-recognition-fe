@@ -22,6 +22,10 @@
     "logout": "Đăng Xuất"
   },
   "login": {
-    "login_failed": "Sai email hoặc mật khẩu"
+    "validate": {
+      "email": "Email không hợp lệ",
+      "password": "Mật khẩu phải có ít nhất 6 ký tự",
+      "login_failed": "Email hoặc mật khẩu sai"
+    }
   }
 }

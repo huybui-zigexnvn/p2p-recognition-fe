@@ -6,7 +6,7 @@
           <div class="card-group">
             <div class="card p-4">
               <div class="card-body">
-                <form @submit="onSubmit">
+                <form @submit.prevent="onSubmit">
                   <h1>Login</h1>
                   <p class="text-medium-emphasis">Sign In to your account</p>
                   <div class="mb-3">
@@ -26,6 +26,7 @@
                       <input v-model="password" placeholder="Password" class="form-control" type="password" name="password" required />
                     </div>
                     <div class="error-message" v-if="errorMessages.password">{{ errorMessages.password }}</div>
+                    <span class="error-message">{{ this.loginFailedMessage }}</span>
                   </div>
                   <div class="row">
                     <div class="col-6">
@@ -35,7 +36,6 @@
                       <button class="btn btn-link px-0" type="button"> Forgot password? </button>
                     </div>
                   </div>
-                  <span class="error-message">{{ this.loginFailedMessage }}</span>
                 </form>
               </div>
             </div>
@@ -78,7 +78,7 @@
               window.localStorage.setItem('token', response.data.json.token);
               this.$router.push('/')
             } else {
-              this.loginFailedMessage = this.$t('login.login_failed') 
+              this.loginFailedMessage = this.$t('login.validate.login_failed') 
               return;
             }
           })
@@ -95,7 +95,7 @@
         this.loginFailedMessage = ''
         const regex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
         if (!regex.test(value)) {
-          this.errorMessages['email'] = 'This field must be a valid email';
+          this.errorMessages['email'] = this.$t('login.validate.email');
         }else {
           this.errorMessages['email'] = '';
         }
@@ -105,7 +105,7 @@
       validatePassword(value) {
         this.loginFailedMessage = ''
         if (value.length < 6) {
-          this.errorMessages['password'] = 'Password must be at least 6 characters'
+          this.errorMessages['password'] = this.$t('login.validate.password')
         } else {
           this.errorMessages['password'] = '';
         }
