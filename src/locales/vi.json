@@ -26,10 +26,14 @@
     "description": "Đăng nhập vào tài khoản của bạn",
     "sign_in": "Đăng nhập",
     "forgot_password": "Quên mật khẩu?",
-    "validate": {
-      "email": "Email không hợp lệ",
-      "password": "Mật khẩu phải có ít nhất 6 ký tự",
-      "login_failed": "Email hoặc mật khẩu sai"
-    }
+    "email": {
+      "placeholder": "Email",
+      "validate": "Email không hợp lệ"
+    },
+    "password": {
+      "placeholder": "Password",
+      "validate": "Mật khẩu phải có ít nhất 6 ký tự"
+    },
+    "login_failed": "Email hoặc mật khẩu sai"
   }
 }

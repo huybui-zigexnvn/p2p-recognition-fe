@@ -26,10 +26,14 @@
     "description": "Sign In to your account",
     "sign_in": "Sign in",
     "forgot_password": "Forgot password?",
-    "validate": {
-      "email": "This field must be a valid email",
-      "password": "Password must be at least 6 characters",
-      "login_failed": "Email or password is wrong"
-    }
+    "email": {
+      "placeholder": "Email",
+      "validate": "This field must be a valid email"
+    },
+    "password": {
+      "placeholder": "Password",
+      "validate": "Password must be at least 6 characters"
+    },
+    "login_failed": "Email or password is wrong"
   }
 }
