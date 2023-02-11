@@ -36,10 +36,6 @@
           <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
         </div>
-        <div class="mb-3">
-          <label for="staffPassword" class="form-label">{{ $t('admin.list_staff.form_create.password') }}</label>
-          <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
-        </div>
       </CModalBody>
       <CModalFooter>
         <CButton color="secondary" @click="closeModal()">
@@ -61,8 +57,7 @@ export default {
     return {
       newStaff: {
         email: '',
-        name: '',
-        password: ''
+        name: ''
       },
       visibleModal: false
     }
@@ -81,7 +76,7 @@ export default {
     submitStaffForm(){
       StaffApi.create(this.newStaff).then(() => {
         this.getStaffList()
-        this.newStaff = { email: '', name: '', password: '' }
+        this.newStaff = { email: '', name: '' }
         this.closeModal()
       }).catch(error => {
         console.error(error)

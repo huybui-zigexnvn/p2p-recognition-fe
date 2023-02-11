@@ -31,5 +31,15 @@
       "password": "Password must be at least 6 characters",
       "login_failed": "Email or password is wrong"
     }
+  },
+  "change_password": {
+    "title": "Change your password",
+    "change_password": "Change password",
+    "password":{
+      "placeholder": "Password"
+    },
+    "password_confirmation": {
+      "placeholder": "Password confirmation"
+    }
   }
 }
