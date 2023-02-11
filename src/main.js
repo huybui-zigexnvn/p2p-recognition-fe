@@ -14,7 +14,6 @@ import en from "./locales/en.json";
 
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
-import {withAuth, withoutAuth} from './backend/axios'
 
 const app = createApp(App)
 
@@ -31,5 +30,3 @@ app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.mount('#app')
-app.config.globalProperties.$withAuth = withAuth;
-app.config.globalProperties.$withoutAuth = withoutAuth;
