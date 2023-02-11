@@ -10,13 +10,13 @@
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
-  <div class="responsive-table">
+  <div class="responsive-table" v-if="(totalStaff > 0)">
     <div class="table-header row">
       <div class="col col-2"></div>
       <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
       <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
     </div>
-    <div class="table-row row" data-url="" v-for="staff in filteredStaffs" :key="staff">
+    <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
@@ -26,16 +26,20 @@
       <div class="col col-5">{{staff['name']}}</div>
       <div class="col col-5">{{staff['email']}}</div>
     </div>
-    <div class="example-one">
-    <vue-awesome-paginate
-      :total-items="staffList.length"
-      :items-per-page="perPage"
-      :max-pages-shown="5"
-      v-model="currentPage"
-      :on-click="onClickHandler"
-    />
-  </div>
+    <div class="pagination d-flex justify-content-center">
+      <vue-awesome-paginate
+        :total-items="totalStaff"
+        :items-per-page="10"
+        :max-pages-shown="5"
+        v-model="currentPage"
+        :on-click="handlerPaginate"
+        :hide-prev-next-when-ends="true"
+      />
+    </div>
     <div class="p-8"></div>
+  </div>
+  <div class="no-records d-flex justify-content-center" v-else>
+    {{ $t('admin.list_staff.no_records_message') }}
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
@@ -87,9 +91,6 @@ export default {
         name: '',
         password: ''
       },
-      searchValue: '',
-      perPage: 5,
-      totalItems: [],
       visibleModal: false,
       searchValue: ''
     }
@@ -98,12 +99,8 @@ export default {
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
+      totalStaff: 'adminStaffs/totalStaff',
     }),
-    filteredStaffs() {
-      return this.staffList.filter((staff) =>
-        staff.name.toLowerCase().includes(this.searchValue.toLowerCase()) || staff.email.toLowerCase().includes(this.searchValue.toLowerCase())
-      )
-    }
   },
 
   methods: {
@@ -115,6 +112,8 @@ export default {
       StaffApi.create(this.newStaff).then(() => {
         this.getStaffList()
         this.newStaff = { email: '', name: '', password: '' }
+        this.searchValue = ''
+        this.currentPage = 1
         this.closeModal()
       }).catch(error => {
         console.error(error)
@@ -127,18 +126,12 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      let params 
-      if(this.searchValue == '') {
-        params = {}
-      } else{
-        params = { q: this.searchValue }
-      }
-      this.getStaffList(params)
-    }
-  },
-
-  created() {
-    // this.getStaffList(this.currentPage);
+      this.getStaffList({ q: this.searchValue, page: 1 })
+      this.currentPage = 1
+    },
+    handlerPaginate(page) {
+      this.getStaffList({ page: page, q: this.searchValue })
+    },
   },
 
   mounted() {
