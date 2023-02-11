@@ -8,7 +8,7 @@
               <div class="card-body">
                 <form @submit.prevent="onSubmit">
                   <h1>{{ $t('login.title') }}</h1>
-                  <p class="text-medium-emphasis">{{ $t('login.description    ') }}</p>
+                  <p class="text-medium-emphasis">{{ $t('login.description') }}</p>
                   <div class="mb-3">
                     <div class="input-group ">
                       <span class="input-group-text">
