@@ -1,7 +1,6 @@
 import { createStore } from 'vuex'
 import adminStaffs from './modules/admin/staffs'
 
-
 export default createStore({
   state: {
     sidebarVisible: '',
