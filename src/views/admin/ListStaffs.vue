@@ -1,7 +1,12 @@
 <template>
-  <div class="row">
-    <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</a></div>
+  <div class="d-flex">
+    <div class="input-group d-flex">
+      <div class="form-outline form-search">
+        <input type="search" class="form-control" placeholder="Search" v-model="searchValue" @keyup="searchStaff" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center">
+      <a class="btn btn-primary" href="#" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</a>
     </div>
   </div>
   <div class="responsive-table">
@@ -64,7 +69,8 @@ export default {
         name: '',
         password: ''
       },
-      visibleModal: false
+      visibleModal: false,
+      searchValue: ''
     }
   },
   computed: {
@@ -92,6 +98,15 @@ export default {
     },
     openModal() {
       this.visibleModal = true
+    },
+    searchStaff() {
+      let params 
+      if(this.searchValue == '') {
+        params = {}
+      } else{
+        params = { q: this.searchValue }
+      }
+      this.getStaffList(params)
     }
   },
   mounted() {

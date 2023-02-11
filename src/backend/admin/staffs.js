@@ -2,7 +2,7 @@ import ApiService from './../api_services';
 
 const StaffApi = {
   getList: function( params ) {
-    return ApiService.get('/staffs', { params: params });
+    return ApiService.get('/staffs', params);
   },
 
   create: function (staffParams) {
