@@ -6,7 +6,7 @@ const ApiService = {
     axios.interceptors.request.use(
       (config) => {
         if(!!window.localStorage.getItem('token')){
-          config.Authorization = window.localStorage.getItem('token')
+          config.headers.Authorization = window.localStorage.getItem('token')
         }
         config.headers['Content-Type'] = 'application/json'
         return config;
