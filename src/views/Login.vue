@@ -2,9 +2,9 @@
   <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card-group">
-            <div class="card p-4">
+        <div class="col-lg-8">
+          <div class="card-group d-block d-md-flex row">
+            <div class="card col-md-7 p-4 mb-0">
               <div class="card-body">
                 <form @submit.prevent="onSubmit">
                   <h1>{{ $t('login.title') }}</h1>
@@ -39,7 +39,7 @@
                 </form>
               </div>
             </div>
-            <div class="card text-white logo-area" style="width: 44%;">
+            <div v-if="!isMobile()" class="card col-md-5 text-white py-5 logo-area">
               <CImage fluid src="/logo-zigexn.png" />
             </div>
           </div>
@@ -61,15 +61,6 @@
         errorMessages: []
       } 
     },
-    watch: {
-      email(value){
-        this.validateEmail(value)
-      },
-
-      password(value){
-        this.validatePassword(value)
-      }
-    },
     methods: {
       async login() {
         try {
@@ -89,6 +80,8 @@
 
       onSubmit() {
         this.login()
+        this.validateEmail(this.email)
+        this.validatePassword(this.password)
       },
 
       validateEmail(value) {
