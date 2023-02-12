@@ -101,12 +101,7 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      let params 
-      if(this.searchValue == '') {
-        params = {}
-      } else{
-        params = { q: this.searchValue }
-      }
+      let params = (this.searchValue == '') ? {} : { q: this.searchValue }
       this.getStaffList(params)
     }
   },
