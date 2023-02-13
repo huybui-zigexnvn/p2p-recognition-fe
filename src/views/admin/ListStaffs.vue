@@ -3,7 +3,7 @@
     <div class="input-group">
       <div class="form-search d-flex align-items-center">
         <CIcon icon="cilSearch" size="xl" />
-        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="nameOrEmailCont" @keyup="searchStaff" />
       </div>
     </div>
     <div class="d-flex justify-content-end align-items-center">
@@ -71,7 +71,7 @@ export default {
         password: ''
       },
       visibleModal: false,
-      searchValue: ''
+      nameOrEmailCont: ''
     }
   },
   computed: {
@@ -101,8 +101,7 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      let params = (this.searchValue == '') ? {} : { q: this.searchValue }
-      this.getStaffList(params)
+      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }})
     }
   },
   mounted() {
