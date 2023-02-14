@@ -1,5 +1,7 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
+import Login from '@/views/Login'
+
 
 const routes = [
   {
@@ -14,11 +16,16 @@ const routes = [
         component: () => import('@/views/admin/ListStaffs.vue'),
       }
     ]
+  },
+  {
+    path: '/login', 
+    name: 'Login',
+    component: Login
   }
 ]
 
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   routes,
   scrollBehavior() {
     return { top: 0 }
@@ -26,3 +33,9 @@ const router = createRouter({
 })
 
 export default router
+
+router.beforeEach((to, from, next) => {
+  if (to.name !== 'Login' && !window.localStorage.getItem('token')) next({name: 'Login'})
+  else if (to.name == 'Login' && window.localStorage.getItem('token')) next('/')
+  else next()
+})
