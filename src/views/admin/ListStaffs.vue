@@ -1,7 +1,13 @@
 <template>
-  <div class="row">
-    <div class="d-flex justify-content-end align-items-center activity">
-      <div><a class="btn btn-primary" href="#" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</a></div>
+  <div class="d-flex">
+    <div class="input-group">
+      <div class="form-search d-flex align-items-center">
+        <CIcon icon="cilSearch" size="xl" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="nameOrEmailCont" @keyup="searchStaff" />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end align-items-center">
+      <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
   <div class="responsive-table">
@@ -64,6 +70,7 @@ export default {
         name: ''
       },
       visibleModal: false,
+      nameOrEmailCont: '',
       errorMessages: {}
     }
   },
@@ -93,6 +100,9 @@ export default {
     },
     openModal() {
       this.visibleModal = true
+    },
+    searchStaff() {
+      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }})
     }
   },
   mounted() {

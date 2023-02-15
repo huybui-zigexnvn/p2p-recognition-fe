@@ -6,6 +6,7 @@
       "create_staff": "Thêm nhân viên",
       "staff_name": "Tên nhân viên",
       "email": "Email",
+      "search_placeholder": "Tìm kiếm...",
       "form_create": {
         "title": "Thêm nhân viên",
         "email": "Địa chỉ email",

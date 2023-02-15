@@ -6,6 +6,7 @@
       "create_staff": "Add Staff",
       "staff_name": "Staff Name",
       "email": "Email",
+      "search_placeholder": "Search...",
       "form_create": {
         "title": "Add Staff",
         "email": "Email Address",
