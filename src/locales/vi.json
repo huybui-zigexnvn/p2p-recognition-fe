@@ -31,9 +31,19 @@
       "validate": "Email không hợp lệ"
     },
     "password": {
-      "placeholder": "Password",
+      "placeholder": "Mật khẩu",
       "validate": "Mật khẩu phải có ít nhất 6 ký tự"
     },
     "login_failed": "Email hoặc mật khẩu sai"
+  },
+  "change_password": {
+    "title": "Thay đổi mật khẩu của bạn",
+    "button": "Đổi mật khẩu",
+    "password":{
+      "placeholder": "Mật khẩu"
+    },
+    "password_confirmation": {
+      "placeholder": "Xác nhận mật khẩu"
+    }
   }
 }

@@ -3,20 +3,30 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import AuthApi from "@/backend/auth";
+
 export default {
   name: 'App',
-  methods: {
-    ...mapActions({
-      getPasswordChanged: 'authen/getPasswordChanged',
-    }),
-    ...mapGetters({
-      currentUser: 'authen/currentUser',
-    })
+  watch: {
+    '$route' (to, from) {
+      this.checkChangePassword()
+    }
   },
-  created() {
-    this.getPasswordChanged()
-    this.currentUser
+  methods: {
+    async checkChangePassword() {
+      try {
+        await AuthApi.getCurrentUser({}).then((response) => {
+          let currentUser = response.data
+          if(currentUser.must_change_password === true){
+            this.$router.push('/change_password')
+          } else if (this.$route.name === "ChangePassword") {
+            this.$router.push('/')
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
 }
 </script>

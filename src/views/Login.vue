@@ -66,6 +66,8 @@
         try {
           await AuthApi.login({email: this.email, password: this.password}).then((response) => {
             if(response.data.json.error){
+              this.validateEmail(this.email)
+              this.validatePassword(this.password)
               this.loginFailedMessage = this.$t('login.login_failed') 
               return;
             } else {
@@ -80,8 +82,6 @@
 
       onSubmit() {
         this.login()
-        this.validateEmail(this.email)
-        this.validatePassword(this.password)
       },
 
       validateEmail(value) {

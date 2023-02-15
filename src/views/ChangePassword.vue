@@ -15,7 +15,7 @@
                       </span>
                       <input v-model="password" :placeholder="$t('change_password.password.placeholder')" class="form-control" type="password" name="password" required />
                     </div>
-                    <InvalidFieldErrorMessage errorField="name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
+                    <InvalidFieldErrorMessage errorField="password" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
                   <div class="mb-4">
                     <div class="input-group ">
@@ -24,11 +24,11 @@
                       </span>
                       <input v-model="passwordConfirmation" :placeholder="$t('change_password.password_confirmation.placeholder')" class="form-control" type="password" name="password_confirmation" required />
                     </div>
-                    <div class="error-message" v-if="errorMessages.passwordConfirmation">{{ errorMessages.passwordConfirmation }}</div>
+                    <InvalidFieldErrorMessage errorField="password_confirmation" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
                   <div class="row">
                     <div class="col-6">
-                      <button class="btn btn-primary px-4">{{ $t('change_password.change_password') }}</button>
+                      <button class="btn btn-primary px-4">{{ $t('change_password.button') }}</button>
                     </div>
                   </div>
                 </form>
@@ -57,7 +57,7 @@
     methods: {
       async changePassword() {
         try {
-          await AuthApi.changePassword({password: this.password}).then((response) => {
+          await AuthApi.changePassword({password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
             if(response.data.error){
               this.loginFailedMessage = this.$t('login.validate.login_failed')
               return;
@@ -67,35 +67,12 @@
             }
           })
         } catch (error) {
+          console.log(error)
           this.errorMessages = error.response.data.message
         }
       },
       onSubmit() {
-        // console.log(this.validatePassword(this.password))
-        // console.log(this.validatePasswordConfirmation(this.passwordConfirmation))
-        
-        // if(this.validatePassword(this.password) && this.validatePasswordConfirmation(this.passwordConfirmation)){
-        //   this.changePassword()
-        // }
         this.changePassword()
-      },
-
-      // validatePassword(value) {
-      //   if (value.length < 6) {
-      //     this.errorMessages['password'] = "Password must be at least 6 characters"
-      //     return false
-      //   } else {
-      //     this.errorMessages['password'] = ''
-      //     return true
-      //   }
-      // },
-
-      validatePasswordConfirmation(value){
-        if (value !== this.password){
-          this.errorMessages['passwordConfirmation'] = "Password and password confirmation are different"
-          return false
-        }
-        return true;
       }
     },
   }
