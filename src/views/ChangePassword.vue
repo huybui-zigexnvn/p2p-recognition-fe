@@ -26,6 +26,7 @@
                     </div>
                     <InvalidFieldErrorMessage errorField="password_confirmation" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
+                  <span class="error-message">{{ this.changePasswordFailed }}</span>
                   <div class="row">
                     <div class="col-6">
                       <button class="btn btn-primary px-4">{{ $t('change_password.button') }}</button>
@@ -50,6 +51,7 @@
       return {
         password: '',
         passwordConfirmation: '',
+        changePasswordFailed: '',
         errorMessages: {},
       } 
     },
@@ -59,7 +61,7 @@
         try {
           await AuthApi.changePassword({password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
             if(response.data.error){
-              this.loginFailedMessage = this.$t('login.validate.login_failed')
+              this.changePasswordFailed = this.$t('change_password.failed')
               return;
             } else {
               window.localStorage.setItem('token', '');
@@ -81,11 +83,5 @@
 <style scoped>
   .error-message {
     color: red;
-  }
-  .logo-area {
-    background-color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
   }
 </style>

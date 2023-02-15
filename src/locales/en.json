@@ -46,6 +46,7 @@
     },
     "password_confirmation": {
       "placeholder": "Password confirmation"
-    }
+    },
+    "failed": "Change password failed"
   }
 }

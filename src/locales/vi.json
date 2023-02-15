@@ -46,5 +46,6 @@
     "password_confirmation": {
       "placeholder": "Xác nhận mật khẩu"
     }
-  }
+  },
+  "failed": "Thay đổi mật khẩu không thành công"
 }
