@@ -13,6 +13,7 @@ import ApiService from "@/backend/api_services";
 import { createI18n } from 'vue-i18n'
 import vi from "./locales/vi.json";
 import en from "./locales/en.json";
+import mixinDetictingMobile from './minxins/mixinDetictingMobile'
 
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
@@ -32,4 +33,5 @@ app.use(VueAwesomePaginate)
 app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
+app.mixin(mixinDetictingMobile)
 app.mount('#app')

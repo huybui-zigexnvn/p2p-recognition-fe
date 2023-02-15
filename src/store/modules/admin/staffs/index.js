@@ -16,11 +16,9 @@ export const mutations = {
 
 export const actions = {
   async getList({ commit }, params) {
-    if(params == undefined) {
-      params = {}
-    }
-    StaffApi.getList(params).then((response) => {
-      commit(STAFF_LIST, response.data);
+    StaffApi.getList(params || {}).then((response) => {
+      let staffList = response.data
+      commit(STAFF_LIST, staffList);
     }).catch(error => {
       console.error(error)
     })

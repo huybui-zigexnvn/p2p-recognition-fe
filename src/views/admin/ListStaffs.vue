@@ -3,7 +3,7 @@
     <div class="input-group">
       <div class="form-search d-flex align-items-center">
         <CIcon icon="cilSearch" size="xl" />
-        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="nameOrEmailCont" @keyup="searchStaff" />
       </div>
     </div>
     <div class="d-flex justify-content-end align-items-center">
@@ -50,14 +50,12 @@
         <div class="mb-3">
           <label for="staffEmail" class="form-label">{{ $t('admin.list_staff.form_create.email') }}</label>
           <input type="email" class="form-control" id="staffEmail" placeholder="name@example.com" v-model="newStaff.email">
+          <InvalidFieldErrorMessage errorField="email" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
         <div class="mb-3">
           <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
           <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
-        </div>
-        <div class="mb-3">
-          <label for="staffPassword" class="form-label">{{ $t('admin.list_staff.form_create.password') }}</label>
-          <input type="password" class="form-control" id="staffPassword" v-model="newStaff.password">
+          <InvalidFieldErrorMessage errorField="name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
       </CModalBody>
       <CModalFooter>
@@ -74,6 +72,7 @@
 import { mapActions, mapGetters } from 'vuex';
 import { ref } from "vue";
 import StaffApi from "@/backend/admin/staffs";
+import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 
 export default {
   name: 'ListStaffs',
@@ -84,15 +83,16 @@ export default {
     };
   },
 
+  components: { InvalidFieldErrorMessage },
   data() {
     return {
       newStaff: {
         email: '',
-        name: '',
-        password: ''
+        name: ''
       },
       visibleModal: false,
-      searchValue: ''
+      nameOrEmailCont: '',
+      errorMessages: {}
     }
   },
 
@@ -111,12 +111,13 @@ export default {
     submitStaffForm(){
       StaffApi.create(this.newStaff).then(() => {
         this.getStaffList()
-        this.newStaff = { email: '', name: '', password: '' }
-        this.searchValue = ''
+        this.newStaff = { email: '', name: '' }
+        this.errorMessages = {}
+        this.nameOrEmailCont = ''
         this.currentPage = 1
         this.closeModal()
       }).catch(error => {
-        console.error(error)
+        this.errorMessages = error.response.data.message
       })
     },
     closeModal() {
@@ -126,11 +127,11 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      this.getStaffList({ q: this.searchValue, page: 1 })
+      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }, page: 1 })
       this.currentPage = 1
     },
     handlerPaginate(page) {
-      this.getStaffList({ page: page, q: this.searchValue })
+      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }, page: page })
     },
   },
 
