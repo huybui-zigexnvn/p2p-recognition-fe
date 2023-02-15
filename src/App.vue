@@ -17,6 +17,7 @@ export default {
       try {
         await AuthApi.getCurrentUser({}).then((response) => {
           let currentUser = response.data
+          console.log(currentUser)
           if(currentUser.must_change_password === true){
             this.$router.push('/change_password')
           } else if (this.$route.name === "ChangePassword") {
