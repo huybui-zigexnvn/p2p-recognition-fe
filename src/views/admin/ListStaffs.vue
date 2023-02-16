@@ -13,8 +13,8 @@
   <div class="responsive-table" v-if="(staffList.length > 0)">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-lg-5">{{ $t('admin.list_staff.staff_name') }}</div>
-      <div class="col col-lg-5">{{ $t('admin.list_staff.email') }}</div>
+      <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
+      <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -23,8 +23,8 @@
           <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
       </div>
-      <div class="col col-lg-5 text-truncate">{{staff['name']}}</div>
-      <div class="col col-lg-5 text-truncate">{{staff['email']}}</div>
+      <div class="col col-5 text-truncate">{{staff['name']}}</div>
+      <div class="col col-5 text-truncate">{{staff['email']}}</div>
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
@@ -99,7 +99,7 @@ export default {
       },
       visibleModal: false,
       nameOrEmailCont: '',
-      errorMessages: {},
+      errorMessages: {}
     }
   },
 
