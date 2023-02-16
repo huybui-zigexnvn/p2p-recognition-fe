@@ -122,6 +122,7 @@ export default {
         this.errorMessages = {}
         this.nameOrEmailCont = ''
         this.currentPage = 1
+        this.$router.push(this.$route.path)
         this.closeModal()
       }).catch(error => {
         this.errorMessages = error.response.data.message
