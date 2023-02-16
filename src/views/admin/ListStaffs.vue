@@ -10,11 +10,11 @@
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
-  <div class="responsive-table" v-if="(totalStaff > 0)">
+  <div class="responsive-table" v-if="(staffList.length > 0)">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
-      <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
+      <div class="col col-lg-5">{{ $t('admin.list_staff.staff_name') }}</div>
+      <div class="col col-lg-5">{{ $t('admin.list_staff.email') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -23,8 +23,8 @@
           <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
       </div>
-      <div class="col col-5">{{staff['name']}}</div>
-      <div class="col col-5">{{staff['email']}}</div>
+      <div class="col col-lg-5 text-truncate">{{staff['name']}}</div>
+      <div class="col col-lg-5 text-truncate">{{staff['email']}}</div>
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
@@ -34,7 +34,14 @@
         v-model="currentPage"
         :on-click="handlerPaginate"
         :hide-prev-next-when-ends="true"
-      />
+      >
+        <template #prev-button>
+          <CIcon icon="cilChevronLeft"/>
+        </template>
+        <template #next-button>
+          <CIcon icon="cilChevronRight"/>
+        </template>
+      </vue-awesome-paginate>
     </div>
     <div class="p-8"></div>
   </div>
@@ -92,7 +99,7 @@ export default {
       },
       visibleModal: false,
       nameOrEmailCont: '',
-      errorMessages: {}
+      errorMessages: {},
     }
   },
 
@@ -127,16 +134,33 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }, page: 1 })
-      this.currentPage = 1
+      const self = this
+      function timer(){
+        self.currentPage = 1
+        let params = { q: { name_or_email_cont: self.nameOrEmailCont }, page: self.currentPage }
+        self.$router.push({ query: self.handlerQueryParams(params) })
+        self.getStaffList(params)
+      }
+
+      setTimeout(timer,2000)
     },
     handlerPaginate(page) {
-      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }, page: page })
+      let params = { q: { name_or_email_cont: this.nameOrEmailCont }, page: page }
+      this.$router.push({ query: this.handlerQueryParams(params) })
+      this.getStaffList(params)
     },
+    handlerQueryParams(params) {
+      if(this.nameOrEmailCont == '') delete params.q
+      if(this.currentPage == 1) delete params.page
+
+      return params
+    }
   },
 
   mounted() {
-    this.getStaffList();
+    this.getStaffList({ page: this.$route.query.page, q: this.$route.query.q});
+    if(this.$route.query.page) this.currentPage = parseInt(this.$route.query.page)
+    if(this.$route.query.q) this.nameOrEmailCont = this.$route.query.q.name_or_email_cont
   },
 }
 </script>

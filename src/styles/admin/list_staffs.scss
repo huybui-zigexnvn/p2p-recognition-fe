@@ -1,7 +1,7 @@
 .responsive-table {
   .table-row{
     background-color:#fff;
-    box-shadow:0 0 9px 0 rgba(0,0,0,.1);
+    border: 1px solid #ced4da;
     padding-left: inherit;
     color: #98A7BA;
     border-radius: 15px;
@@ -33,7 +33,10 @@
   }
 }
 
-.btn-add-staff { white-space: nowrap; }
+.btn-add-staff {
+  white-space: nowrap;
+  margin-left: 10px;
+}
 
 .form-search {
   height: 40px;

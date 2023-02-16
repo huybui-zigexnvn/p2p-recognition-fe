@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
-
+import qs from 'qs';
 
 const routes = [
   {
@@ -30,6 +30,14 @@ const router = createRouter({
   scrollBehavior() {
     return { top: 0 }
   },
+  parseQuery(query) {
+    return qs.parse(query);
+  },
+  stringifyQuery(query) {
+    var result = qs.stringify(query);
+
+    return result ? (result) : '';
+  }
 })
 
 export default router
