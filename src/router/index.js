@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
 import ChangePassword from '@/views/ChangePassword'
-import store from '@/store'
 
 const routes = [
   {
@@ -41,6 +40,6 @@ const router = createRouter({
 export default router
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !window.localStorage.getItem('token')) next({name: 'Login'})
+  if (to.name !== 'Login' && to.name !== 'ChangePassword' && !window.localStorage.getItem('token')) next({name: 'Login'})
   else next()
 })

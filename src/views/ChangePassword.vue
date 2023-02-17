@@ -27,6 +27,7 @@
                     <InvalidFieldErrorMessage errorField="password_confirmation" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
                   <span class="error-message">{{ this.changePasswordFailed }}</span>
+                  <span v-if="this.errorTokenMessage.length > 1" class="error-message">{{ this.errorTokenMessage }}</span>
                   <div class="row">
                     <div class="col-6">
                       <button class="btn btn-primary px-4">{{ $t('change_password.button') }}</button>
@@ -50,16 +51,18 @@
     data() {
       return {
         password: '',
+        confirmationToken: this.$route.query.token,
         passwordConfirmation: '',
         changePasswordFailed: '',
         errorMessages: {},
+        errorTokenMessage: ''
       } 
     },
     components: { InvalidFieldErrorMessage },
     methods: {
       async changePassword() {
         try {
-          await AuthApi.changePassword({password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
+          await AuthApi.changePassword({token: this.confirmationToken, password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
             if(response.data.error){
               this.changePasswordFailed = this.$t('change_password.failed')
               return;
@@ -69,14 +72,14 @@
             }
           })
         } catch (error) {
-          console.log(error)
-          this.errorMessages = error.response.data.message
+          if (error.response.data.message) {this.errorMessages = error.response.data.message}
+          if (error.response.data.error_token_message) {this.errorTokenMessage = error.response.data.error_token_message}
         }
       },
       onSubmit() {
         this.changePassword()
       }
-    },
+    }
   }
 </script>
 
