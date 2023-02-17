@@ -41,5 +41,6 @@ export default router
 
 router.beforeEach((to, from, next) => {
   if (to.name !== 'Login' && to.name !== 'ChangePassword' && !window.localStorage.getItem('token')) next({name: 'Login'})
+  else if (to.name == 'Login' && window.localStorage.getItem('token')) next('/')
   else next()
 })
