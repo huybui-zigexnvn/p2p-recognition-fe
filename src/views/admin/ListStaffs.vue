@@ -43,9 +43,8 @@
         </template>
       </vue-awesome-paginate>
     </div>
-    <div class="p-8"></div>
   </div>
-  <div class="no-records d-flex justify-content-center" v-else>
+  <div class="no-records d-flex justify-content-center" v-else-if="(loadedAllData || invalidPage)">
     {{ $t('admin.list_staff.no_records_message') }}
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
@@ -99,7 +98,8 @@ export default {
       },
       visibleModal: false,
       nameOrEmailCont: '',
-      errorMessages: {}
+      errorMessages: {},
+      invalidPage: false
     }
   },
 
@@ -107,7 +107,15 @@ export default {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
       totalStaff: 'adminStaffs/totalStaff',
+      loadedAllData: 'adminStaffs/loadedAllData'
     }),
+    paramsCurrentPage() {
+      return this.$route.query.page || 1
+    },
+
+    currentSearch() {
+      return this.$route.query.q
+    }
   },
 
   methods: {
@@ -159,9 +167,13 @@ export default {
   },
 
   mounted() {
-    this.getStaffList({ page: this.$route.query.page, q: this.$route.query.q});
-    if(this.$route.query.page) this.currentPage = parseInt(this.$route.query.page)
-    if(this.$route.query.q) this.nameOrEmailCont = this.$route.query.q.name_or_email_cont
+    let currentPage = parseInt(this.paramsCurrentPage) || 0
+    if(currentPage < 1) this.invalidPage = true
+    else {
+      this.getStaffList({ page: this.paramsCurrentPage, q: this.currentSearch })
+      if(this.paramsCurrentPage) this.currentPage = currentPage
+      this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
+    }
   },
 }
 </script>
