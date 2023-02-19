@@ -142,7 +142,7 @@ export default {
         self.getStaffList(params)
       }
 
-      setTimeout(timer,2000)
+      setTimeout(timer,300)
     },
     handlerPaginate(page) {
       let params = { q: { name_or_email_cont: this.nameOrEmailCont }, page: page }
@@ -166,9 +166,7 @@ export default {
 
     await this.getStaffList({page: this.currentPage, q: this.currentSearch})
     this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
-    if(this.staffList.length === 0) {
-      this.hasNoRecords = true
-    }
+    this.hasNoRecords = this.staffList.length === 0
   }
 }
 </script>
