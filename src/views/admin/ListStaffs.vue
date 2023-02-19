@@ -109,6 +109,13 @@ export default {
       return this.$route.query.q
     }
   },
+
+  watch: {
+    staffList() {
+      return this.hasNoRecords = this.staffList.length === 0
+    }
+  },
+
   methods: {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
@@ -161,7 +168,7 @@ export default {
     this.currentPage = parseInt(this.$route.query.page) || 0
     if (this.currentPage < 1) {
       this.currentPage = 1
-      this.$router.push({ name: 'Home' })
+      this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
     }
 
     await this.getStaffList({page: this.currentPage, q: this.currentSearch})
