@@ -10,7 +10,11 @@
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
-  <div class="responsive-table" v-if="(staffList.length > 0)">
+
+  <div class="no-records d-flex justify-content-center" v-if="(hasNoRecords || invalidPage)">
+    {{ $t('admin.list_staff.no_records_message') }}
+  </div>
+  <div class="responsive-table" v-else-if="totalStaff > 0">
     <div class="table-header row">
       <div class="col col-2"></div>
       <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
@@ -44,9 +48,7 @@
       </vue-awesome-paginate>
     </div>
   </div>
-  <div class="no-records d-flex justify-content-center" v-else-if="(hasNoRecords || invalidPage)">
-    {{ $t('admin.list_staff.no_records_message') }}
-  </div>
+
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
       <CModalTitle>{{ $t('admin.list_staff.form_create.title') }}</CModalTitle>
@@ -117,14 +119,6 @@ export default {
       return this.$route.query.q
     }
   },
-
-  watch: {
-    staffList() {
-      if(this.staffList.length == 0) return this.hasNoRecords = true
-      else return this.hasNoRecords = false
-    }
-  },
-
   methods: {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
@@ -166,22 +160,26 @@ export default {
       this.getStaffList(params)
     },
     handlerQueryParams(params) {
-      if(this.nameOrEmailCont == '') delete params.q
-      if(this.currentPage == 1) delete params.page
+      if(this.nameOrEmailCont === '') delete params.q
+      if(this.currentPage === 1) delete params.page
 
       return params
     }
   },
 
-  mounted() {
+  async mounted() {
     let currentPage = parseInt(this.paramsCurrentPage) || 0
-    if(currentPage < 1) this.invalidPage = true
-    else {
-      this.getStaffList({ page: this.paramsCurrentPage, q: this.currentSearch })
-      this.currentPage = this.paramsCurrentPage && currentPage
-      this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
+    if (currentPage < 1) {
+      this.$router.push({ name: 'Home' })
     }
-  },
+
+    await this.getStaffList({page: this.paramsCurrentPage, q: this.currentSearch})
+    this.currentPage = this.paramsCurrentPage && currentPage
+    this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
+    if(this.totalStaff === 0) {
+      this.hasNoRecords = true
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
