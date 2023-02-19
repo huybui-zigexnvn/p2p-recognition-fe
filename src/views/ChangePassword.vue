@@ -85,16 +85,12 @@
       },
 
       async checkTokenChangePassword() {
-        try {
-          await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then((response) => {
-            if(response.data.status === 404){
-              this.notFound = true
-              this.toast.success(response.data.error_token_message, {});
-            }
-          })
-        } catch (error) {
-          console.log(error)
-        }
+        await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then(response => {}).catch(error => {
+          if(error.response.request.status === 404) {
+            this.notFound = true
+            this.toast.error(error.response.data.error_token_message)
+          }
+        })
       },
       onSubmit() {
         this.changePassword()
