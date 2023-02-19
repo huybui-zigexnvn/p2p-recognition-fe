@@ -1,6 +1,6 @@
 <template>
   <PageNotFound v-if="this.notFound"></PageNotFound>
-  <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <div v-else class="bg-light min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
