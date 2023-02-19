@@ -11,10 +11,10 @@
     </div>
   </div>
 
-  <div class="no-records d-flex justify-content-center" v-if="(hasNoRecords || invalidPage)">
+  <div class="no-records d-flex justify-content-center" v-if="hasNoRecords">
     {{ $t('admin.list_staff.no_records_message') }}
   </div>
-  <div class="responsive-table" v-else-if="totalStaff > 0">
+  <div class="responsive-table" v-else-if="staffList.length > 0">
     <div class="table-header row">
       <div class="col col-2"></div>
       <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
@@ -78,19 +78,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import { ref } from "vue";
 import StaffApi from "@/backend/admin/staffs";
 import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 
 export default {
   name: 'ListStaffs',
-  setup() {
-    const currentPage = ref(1);
-    return {
-      currentPage,
-    };
-  },
-
   components: { InvalidFieldErrorMessage },
   data() {
     return {
@@ -103,6 +95,7 @@ export default {
       errorMessages: {},
       invalidPage: false,
       hasNoRecords: false,
+      currentPage: 1
     }
   },
 
@@ -111,9 +104,6 @@ export default {
       staffList: 'adminStaffs/staffList',
       totalStaff: 'adminStaffs/totalStaff',
     }),
-    paramsCurrentPage() {
-      return this.$route.query.page || 1
-    },
 
     currentSearch() {
       return this.$route.query.q
@@ -168,15 +158,15 @@ export default {
   },
 
   async mounted() {
-    let currentPage = parseInt(this.paramsCurrentPage) || 0
-    if (currentPage < 1) {
+    this.currentPage = parseInt(this.$route.query.page) || 0
+    if (this.currentPage < 1) {
+      this.currentPage = 1
       this.$router.push({ name: 'Home' })
     }
 
-    await this.getStaffList({page: this.paramsCurrentPage, q: this.currentSearch})
-    this.currentPage = this.paramsCurrentPage && currentPage
+    await this.getStaffList({page: this.currentPage, q: this.currentSearch})
     this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
-    if(this.totalStaff === 0) {
+    if(this.staffList.length === 0) {
       this.hasNoRecords = true
     }
   }
