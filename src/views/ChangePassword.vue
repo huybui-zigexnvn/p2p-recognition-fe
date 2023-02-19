@@ -65,9 +65,8 @@
     components: { InvalidFieldErrorMessage, PageNotFound },
     methods: {
       async changePassword() {
-        try {
-          await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
-            if(response.data.error){
+        await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then(response => {
+          if(response.data.error){
               this.toast.error(`${this.$t('change_password.failed')}`)
               return;
             } else {
@@ -77,11 +76,10 @@
                 timeout: 2000
               });
             }
-          })
-        } catch (error) {
+        }).catch(error => {
           if (error.response.data.message) {this.errorMessages = error.response.data.message}
           console.log(error)
-        }
+        })
       },
 
       async checkTokenChangePassword() {
