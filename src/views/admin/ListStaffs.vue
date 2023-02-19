@@ -44,7 +44,7 @@
       </vue-awesome-paginate>
     </div>
   </div>
-  <div class="no-records d-flex justify-content-center" v-else-if="(loadedAllData || invalidPage)">
+  <div class="no-records d-flex justify-content-center" v-else-if="(hasNoRecords || invalidPage)">
     {{ $t('admin.list_staff.no_records_message') }}
   </div>
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
@@ -99,7 +99,8 @@ export default {
       visibleModal: false,
       nameOrEmailCont: '',
       errorMessages: {},
-      invalidPage: false
+      invalidPage: false,
+      hasNoRecords: false,
     }
   },
 
@@ -107,7 +108,6 @@ export default {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
       totalStaff: 'adminStaffs/totalStaff',
-      loadedAllData: 'adminStaffs/loadedAllData'
     }),
     paramsCurrentPage() {
       return this.$route.query.page || 1
@@ -115,6 +115,13 @@ export default {
 
     currentSearch() {
       return this.$route.query.q
+    }
+  },
+
+  watch: {
+    staffList() {
+      if(this.staffList.length == 0) return this.hasNoRecords = true
+      else return this.hasNoRecords = false
     }
   },
 
@@ -171,7 +178,7 @@ export default {
     if(currentPage < 1) this.invalidPage = true
     else {
       this.getStaffList({ page: this.paramsCurrentPage, q: this.currentSearch })
-      if(this.paramsCurrentPage) this.currentPage = currentPage
+      this.currentPage = this.paramsCurrentPage && currentPage
       this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
     }
   },
