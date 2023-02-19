@@ -7,6 +7,7 @@
       "staff_name": "Staff Name",
       "email": "Email",
       "search_placeholder": "Search...",
+      "no_records_message": "There are no records",
       "form_create": {
         "title": "Add Staff",
         "email": "Email Address",

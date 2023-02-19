@@ -7,6 +7,8 @@ import CIcon from '@coreui/icons-vue'
 import { iconsSet as icons } from '@/assets/icons'
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
+import "vue-awesome-paginate/dist/style.css"
+import VueAwesomePaginate from "vue-awesome-paginate"
 import ApiService from "@/backend/api_services";
 import { createI18n } from 'vue-i18n'
 import vi from "./locales/vi.json";
@@ -30,6 +32,7 @@ app.use(Toast, options);
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)
+app.use(VueAwesomePaginate)
 app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)

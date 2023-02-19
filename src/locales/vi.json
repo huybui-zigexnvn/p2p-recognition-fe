@@ -7,6 +7,7 @@
       "staff_name": "Tên nhân viên",
       "email": "Email",
       "search_placeholder": "Tìm kiếm...",
+      "no_records_message": "Không có bản ghi nào",
       "form_create": {
         "title": "Thêm nhân viên",
         "email": "Địa chỉ email",

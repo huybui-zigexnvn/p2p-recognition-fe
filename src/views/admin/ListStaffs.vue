@@ -10,7 +10,11 @@
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
-  <div class="responsive-table">
+
+  <div class="no-records d-flex justify-content-center" v-if="hasNoRecords">
+    {{ $t('admin.list_staff.no_records_message') }}
+  </div>
+  <div class="responsive-table" v-else-if="staffList.length > 0">
     <div class="table-header row">
       <div class="col col-2"></div>
       <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
@@ -23,11 +27,28 @@
           <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
       </div>
-      <div class="col col-5">{{staff['name']}}</div>
-      <div class="col col-5">{{staff['email']}}</div>
+      <div class="col col-5 text-truncate">{{staff['name']}}</div>
+      <div class="col col-5 text-truncate">{{staff['email']}}</div>
     </div>
-    <div class="p-8"></div>
+    <div class="pagination d-flex justify-content-center">
+      <vue-awesome-paginate
+        :total-items="totalStaff"
+        :items-per-page="10"
+        :max-pages-shown="5"
+        v-model="currentPage"
+        :on-click="handlerPaginate"
+        :hide-prev-next-when-ends="true"
+      >
+        <template #prev-button>
+          <CIcon icon="cilChevronLeft"/>
+        </template>
+        <template #next-button>
+          <CIcon icon="cilChevronRight"/>
+        </template>
+      </vue-awesome-paginate>
+    </div>
   </div>
+
   <CModal alignment="center" :visible="visibleModal" @close="closeModal()">
     <CModalHeader>
       <CModalTitle>{{ $t('admin.list_staff.form_create.title') }}</CModalTitle>
@@ -71,13 +92,28 @@ export default {
       },
       visibleModal: false,
       nameOrEmailCont: '',
-      errorMessages: {}
+      errorMessages: {},
+      invalidPage: false,
+      hasNoRecords: false,
+      currentPage: 1
     }
   },
+
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
+      totalStaff: 'adminStaffs/totalStaff',
     }),
+
+    currentSearch() {
+      return this.$route.query.q
+    }
+  },
+
+  watch: {
+    staffList() {
+      return this.hasNoRecords = this.staffList.length === 0
+    }
   },
 
   methods: {
@@ -90,6 +126,9 @@ export default {
         this.getStaffList()
         this.newStaff = { email: '', name: '' }
         this.errorMessages = {}
+        this.nameOrEmailCont = ''
+        this.currentPage = 1
+        this.$router.push(this.$route.path)
         this.closeModal()
       }).catch(error => {
         this.errorMessages = error.response.data.message
@@ -102,11 +141,39 @@ export default {
       this.visibleModal = true
     },
     searchStaff() {
-      this.getStaffList({ q: { name_or_email_cont: this.nameOrEmailCont }})
+      const self = this
+      function timer(){
+        self.currentPage = 1
+        let params = { q: { name_or_email_cont: self.nameOrEmailCont }, page: self.currentPage }
+        self.$router.push({ query: self.handlerQueryParams(params) })
+        self.getStaffList(params)
+      }
+
+      setTimeout(timer,300)
+    },
+    handlerPaginate(page) {
+      let params = { q: { name_or_email_cont: this.nameOrEmailCont }, page: page }
+      this.$router.push({ query: this.handlerQueryParams(params) })
+      this.getStaffList(params)
+    },
+    handlerQueryParams(params) {
+      if(this.nameOrEmailCont === '') delete params.q
+      if(this.currentPage === 1) delete params.page
+
+      return params
     }
   },
-  mounted() {
-    this.getStaffList();
+
+  async mounted() {
+    this.currentPage = parseInt(this.$route.query.page) || 0
+    if (this.currentPage < 1) {
+      this.currentPage = 1
+      this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
+    }
+
+    await this.getStaffList({page: this.currentPage, q: this.currentSearch})
+    this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
+    this.hasNoRecords = this.staffList.length === 0
   }
 }
 </script>
