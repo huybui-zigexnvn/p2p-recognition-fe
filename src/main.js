@@ -14,10 +14,12 @@ import { createI18n } from 'vue-i18n'
 import vi from "./locales/vi.json";
 import en from "./locales/en.json";
 import mixinDetictingMobile from './minxins/mixinDetictingMobile'
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
-
+const options = {};
 const app = createApp(App)
 
 const i18n = createI18n({
@@ -26,6 +28,7 @@ const i18n = createI18n({
   messages: { vi, en },
 });
 
+app.use(Toast, options);
 app.use(store)
 app.use(router)
 app.use(CoreuiVue)

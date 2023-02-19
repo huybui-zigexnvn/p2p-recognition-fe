@@ -33,9 +33,27 @@
       "validate": "Email không hợp lệ"
     },
     "password": {
-      "placeholder": "Password",
+      "placeholder": "Mật khẩu",
       "validate": "Mật khẩu phải có ít nhất 6 ký tự"
     },
     "login_failed": "Email hoặc mật khẩu sai"
+  },
+  "change_password": {
+    "title": "Thay đổi mật khẩu của bạn",
+    "button": "Đổi mật khẩu",
+    "password":{
+      "placeholder": "Mật khẩu"
+    },
+    "password_confirmation": {
+      "placeholder": "Xác nhận mật khẩu"
+    },
+    "success": "Change password successfully, please login",
+    "failed": "Thay đổi mật khẩu không thành công"
+  },
+  "page_not_found": {
+    "title": "404",
+    "you_lost": "Ồ!! Bạn đã bị lạc lối",
+    "description": "Không tìm thấy trang bạn đang tìm kiếm.",
+    "button_home_page": "Trở về trang chủ"
   }
 }

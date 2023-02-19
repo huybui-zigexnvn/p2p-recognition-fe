@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
 import qs from 'qs';
+import ChangePassword from '@/views/ChangePassword'
+import pageNotFound from '@/views/pageNotFound'
 
 const routes = [
   {
@@ -21,6 +23,16 @@ const routes = [
     path: '/login', 
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/change_password', 
+    name: 'ChangePassword',
+    component: ChangePassword
+  },
+  {
+    path: '/:pathMatch(.*)*', 
+    name: 'NotFound',
+    component: pageNotFound
   }
 ]
 
@@ -40,10 +52,16 @@ const router = createRouter({
   }
 })
 
+
+router.resolve({
+  name: 'NotFound',
+  params: { pathMatch: ['not', 'found'] },
+}).href
+
 export default router
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && !window.localStorage.getItem('token')) next({name: 'Login'})
+  if (to.name !== 'Login' && to.name !== 'ChangePassword' && to.name !== 'NotFound' && !window.localStorage.getItem('token')) next({name: 'Login'})
   else if (to.name == 'Login' && window.localStorage.getItem('token')) next('/')
   else next()
 })

@@ -37,5 +37,23 @@
       "validate": "Password must be at least 6 characters"
     },
     "login_failed": "Email or password is wrong"
+  },
+  "change_password": {
+    "title": "Change your password",
+    "button": "Change password",
+    "password":{
+      "placeholder": "Password"
+    },
+    "password_confirmation": {
+      "placeholder": "Password confirmation"
+    },
+    "success": "Change password successfully, please login",
+    "failed": "Change password failed"
+  },
+  "page_not_found": {
+    "title": "404",
+    "you_lost": "Oops! You're lost.",
+    "description": "The page you are looking for was not found.",
+    "button_home_page": "Return to home page"
   }
 }
