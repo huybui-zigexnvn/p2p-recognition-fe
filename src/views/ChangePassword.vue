@@ -1,10 +1,11 @@
 <template>
+  <PageNotFound v-if="this.notFound"></PageNotFound>
   <div class="bg-light min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card-group">
-            <div class="card p-4">
+            <div class="card p-2">
               <div class="card-body">
                 <form @submit.prevent="onSubmit">
                   <h1>{{ $t('change_password.title') }}</h1>
@@ -26,10 +27,8 @@
                     </div>
                     <InvalidFieldErrorMessage errorField="password_confirmation" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
-                  <span class="error-message">{{ this.changePasswordFailed }}</span>
-                  <span v-if="this.errorTokenMessage.length > 1" class="error-message">{{ this.errorTokenMessage }}</span>
                   <div class="row">
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                       <button class="btn btn-primary px-4">{{ $t('change_password.button') }}</button>
                     </div>
                   </div>
@@ -44,42 +43,66 @@
 </template>
 
 <script>
-  import AuthApi from "@/backend/auth";
+  import StaffApi from "@/backend/staff";
   import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
+  import PageNotFound from '@/views//pageNotFound'
+  import { useToast } from 'vue-toastification'
 
   export default {
+    setup() {
+      const toast = useToast();
+      return { toast }
+    },
     data() {
       return {
         password: '',
-        confirmationToken: this.$route.query.token,
+        changePasswordToken: this.$route.query.token,
         passwordConfirmation: '',
-        changePasswordFailed: '',
         errorMessages: {},
-        errorTokenMessage: ''
+        notFound: false,
       } 
     },
-    components: { InvalidFieldErrorMessage },
+    components: { InvalidFieldErrorMessage, PageNotFound },
     methods: {
       async changePassword() {
         try {
-          await AuthApi.changePassword({token: this.confirmationToken, password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
+          await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then((response) => {
             if(response.data.error){
-              this.changePasswordFailed = this.$t('change_password.failed')
+              this.toast.error(`${this.$t('change_password.failed')}`)
               return;
             } else {
               window.localStorage.setItem('token', '');
-              this.$router.push('/')
+              this.$router.push('/login')
+              this.toast.success(`${this.$t('change_password.success')}`, {
+                timeout: 2000
+              });
             }
           })
         } catch (error) {
           if (error.response.data.message) {this.errorMessages = error.response.data.message}
-          if (error.response.data.error_token_message) {this.errorTokenMessage = error.response.data.error_token_message}
+          console.log(error)
+        }
+      },
+
+      async checkTokenChangePassword() {
+        try {
+          await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then((response) => {
+            if(response.data.status === 404){
+              this.notFound = true
+              this.toast.success(response.data.error_token_message, {});
+            }
+          })
+        } catch (error) {
+          console.log(error)
         }
       },
       onSubmit() {
         this.changePassword()
       }
-    }
+    },
+    created() {
+      this.checkTokenChangePassword()
+    },
   }
 </script>
 
