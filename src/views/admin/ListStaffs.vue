@@ -3,7 +3,7 @@
     <div class="input-group">
       <div class="form-search d-flex align-items-center">
         <CIcon icon="cilSearch" size="xl" />
-        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="nameOrEmailCont" @keyup="searchStaff" />
+        <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
     <div class="d-flex justify-content-end align-items-center">
@@ -17,8 +17,9 @@
   <div class="responsive-table" v-else-if="staffList.length > 0">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-5">{{ $t('admin.list_staff.staff_name') }}</div>
-      <div class="col col-5">{{ $t('admin.list_staff.email') }}</div>
+      <div class="col col-3">{{ $t('admin.list_staff.first_name') }}</div>
+      <div class="col col-3">{{ $t('admin.list_staff.last_name') }}</div>
+      <div class="col col-4">{{ $t('admin.list_staff.email') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -27,8 +28,9 @@
           <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
       </div>
-      <div class="col col-5 text-truncate">{{staff['name']}}</div>
-      <div class="col col-5 text-truncate">{{staff['email']}}</div>
+      <div class="col col-3 text-truncate">{{staff['first_name']}}</div>
+      <div class="col col-3 text-truncate">{{staff['last_name']}}</div>
+      <div class="col col-4 text-truncate">{{staff['email']}}</div>
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
@@ -61,9 +63,14 @@
           <InvalidFieldErrorMessage errorField="email" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
         <div class="mb-3">
-          <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.staff_name') }}</label>
-          <input type="name" class="form-control" id="staffName" v-model="newStaff.name">
-          <InvalidFieldErrorMessage errorField="name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
+          <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.first_name') }}</label>
+          <input type="first_name" class="form-control" id="staffFristName" v-model="newStaff.first_name">
+          <InvalidFieldErrorMessage errorField="first_name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
+        </div>
+        <div class="mb-3">
+          <label for="staffName" class="form-label">{{ $t('admin.list_staff.form_create.last_name') }}</label>
+          <input type="last_name" class="form-control" id="staffLastName" v-model="newStaff.last_name">
+          <InvalidFieldErrorMessage errorField="last_name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
         </div>
       </CModalBody>
       <CModalFooter>
@@ -88,10 +95,11 @@ export default {
     return {
       newStaff: {
         email: '',
-        name: ''
+        first_name: '',
+        last_name: '',
       },
       visibleModal: false,
-      nameOrEmailCont: '',
+      searchValue: '',
       errorMessages: {},
       invalidPage: false,
       hasNoRecords: false,
@@ -124,9 +132,9 @@ export default {
     submitStaffForm(){
       StaffApi.create(this.newStaff).then(() => {
         this.getStaffList()
-        this.newStaff = { email: '', name: '' }
+        this.newStaff = { email: '', first_name: '', last_name: '' }
         this.errorMessages = {}
-        this.nameOrEmailCont = ''
+        this.searchValue = ''
         this.currentPage = 1
         this.$router.push(this.$route.path)
         this.closeModal()
@@ -144,7 +152,7 @@ export default {
       const self = this
       function timer(){
         self.currentPage = 1
-        let params = { q: { name_or_email_cont: self.nameOrEmailCont }, page: self.currentPage }
+        let params = { q: { first_name_or_last_name_or_email_cont: self.searchValue }, page: self.currentPage }
         self.$router.push({ query: self.handlerQueryParams(params) })
         self.getStaffList(params)
       }
@@ -152,12 +160,12 @@ export default {
       setTimeout(timer,300)
     },
     handlerPaginate(page) {
-      let params = { q: { name_or_email_cont: this.nameOrEmailCont }, page: page }
+      let params = { q: { first_name_or_last_name_or_email_cont: this.searchValue }, page: page }
       this.$router.push({ query: this.handlerQueryParams(params) })
       this.getStaffList(params)
     },
     handlerQueryParams(params) {
-      if(this.nameOrEmailCont === '') delete params.q
+      if(this.searchValue === '') delete params.q
       if(this.currentPage === 1) delete params.page
 
       return params
@@ -172,7 +180,7 @@ export default {
     }
 
     await this.getStaffList({page: this.currentPage, q: this.currentSearch})
-    this.nameOrEmailCont = this.currentSearch && this.currentSearch.name_or_email_cont
+    this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
     this.hasNoRecords = this.staffList.length === 0
   }
 }

@@ -4,14 +4,16 @@
       "home": "Home",
       "list_staff": "List Staff",
       "create_staff": "Add Staff",
-      "staff_name": "Staff Name",
+      "first_name": "First name",
+      "last_name": "Last name",
       "email": "Email",
       "search_placeholder": "Search...",
       "no_records_message": "There are no records",
       "form_create": {
         "title": "Add Staff",
         "email": "Email Address",
-        "staff_name": "Staff Name",
+        "first_name": "First name",
+        "last_name": "Last name",
         "password": "Passwords",
         "close": "Close",
         "save": "Save"
