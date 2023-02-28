@@ -4,14 +4,16 @@
       "home": "Trang chủ",
       "list_staff": "Danh sách nhân viên",
       "create_staff": "Thêm nhân viên",
-      "staff_name": "Tên nhân viên",
+      "first_name": "Tên",
+      "last_name": "Họ",
       "email": "Email",
       "search_placeholder": "Tìm kiếm...",
       "no_records_message": "Không có bản ghi nào",
       "form_create": {
         "title": "Thêm nhân viên",
         "email": "Địa chỉ email",
-        "staff_name": "Tên nhân viên",
+        "first_name": "Tên",
+        "last_name": "Họ",
         "password": "Mật khẩu",
         "close": "Đóng",
         "save": "Lưu"
