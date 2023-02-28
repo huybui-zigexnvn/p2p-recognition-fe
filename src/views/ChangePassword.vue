@@ -1,6 +1,6 @@
 <template>
-  <PageNotFound v-if="this.notFound"></PageNotFound>
-  <div v-else class="bg-light min-vh-100 d-flex flex-row align-items-center">
+  <PageNotFound v-if="this.notFound === true"></PageNotFound>
+  <div v-else-if="this.notFound === false" class="bg-light min-vh-100 d-flex flex-row align-items-center">
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-8">
@@ -59,7 +59,7 @@
         changePasswordToken: this.$route.query.token,
         passwordConfirmation: '',
         errorMessages: {},
-        notFound: false,
+        notFound: null,
       } 
     },
     components: { InvalidFieldErrorMessage, PageNotFound },
@@ -83,7 +83,9 @@
       },
 
       async checkTokenChangePassword() {
-        await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then(response => {}).catch(error => {
+        await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then(response => {
+          this.notFound = false
+        }).catch(error => {
           if(error.response.request.status === 404) {
             this.notFound = true
             this.toast.error(error.response.data.error_token_message)
