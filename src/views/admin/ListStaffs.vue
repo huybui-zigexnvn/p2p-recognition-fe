@@ -34,7 +34,7 @@
       <div class="col col-3 text-truncate">{{staff['email']}}</div>
       <div class="col col-1">
         <label class="toggle">
-          <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change=" switchStatusStaff(staff)">
+          <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change="switchStatusStaff(staff)">
           <div class="toggle-switch"></div>
         </label>
       </div>
