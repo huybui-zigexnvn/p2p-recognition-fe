@@ -13,7 +13,7 @@ import ApiService from "@/backend/api_services";
 import { createI18n } from 'vue-i18n'
 import vi from "./locales/vi.json";
 import en from "./locales/en.json";
-import mixinDetictingMobile from './minxins/mixinDetictingMobile'
+import mixinDetectingMobile from './mixins/mixinDetectingMobile'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
@@ -36,5 +36,5 @@ app.use(VueAwesomePaginate)
 app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
-app.mixin(mixinDetictingMobile)
+app.mixin(mixinDetectingMobile)
 app.mount('#app')

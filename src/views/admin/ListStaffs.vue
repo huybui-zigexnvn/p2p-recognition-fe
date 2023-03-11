@@ -1,4 +1,5 @@
 <template>
+  <loader :active="loaderActive"/>
   <div class="d-flex">
     <div class="input-group">
       <div class="form-search d-flex align-items-center">
@@ -87,10 +88,13 @@
 import { mapActions, mapGetters } from 'vuex';
 import StaffApi from "@/backend/admin/staffs";
 import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
+import Loader from '@/components/Loader.vue'
+import loaderMixin from '@/mixins/loader';
 
 export default {
   name: 'ListStaffs',
-  components: { InvalidFieldErrorMessage },
+  components: { InvalidFieldErrorMessage, Loader },
+  mixins: [loaderMixin],
   data() {
     return {
       newStaff: {
@@ -106,7 +110,6 @@ export default {
       currentPage: 1
     }
   },
-
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
@@ -129,18 +132,22 @@ export default {
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
     }),
-    submitStaffForm(){
-      StaffApi.create(this.newStaff).then(() => {
-        this.getStaffList()
-        this.newStaff = { email: '', first_name: '', last_name: '' }
-        this.errorMessages = {}
-        this.searchValue = ''
-        this.currentPage = 1
-        this.$router.push(this.$route.path)
-        this.closeModal()
-      }).catch(error => {
+    async submitStaffForm(){
+      this.showLoader()
+      try {
+        await StaffApi.create(this.newStaff).then(() => {
+          this.getStaffList()
+          this.newStaff = { email: '', first_name: '', last_name: '' }
+          this.errorMessages = {}
+          this.searchValue = ''
+          this.currentPage = 1
+          this.$router.push(this.$route.path)
+          this.closeModal()
+          this.hideLoader()
+        })
+      } catch(error) {
         this.errorMessages = error.response.data.message
-      })
+      }
     },
     closeModal() {
       this.visibleModal = false
@@ -173,15 +180,23 @@ export default {
   },
 
   async mounted() {
+    this.showLoader();
     this.currentPage = parseInt(this.$route.query.page) || 0
     if (this.currentPage < 1) {
       this.currentPage = 1
       this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
     }
 
-    await this.getStaffList({page: this.currentPage, q: this.currentSearch})
-    this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
-    this.hasNoRecords = this.staffList.length === 0
+    try {
+      await this.getStaffList({page: this.currentPage, q: this.currentSearch}).then((response) => {        
+        this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
+        this.hasNoRecords = this.staffList.length === 0
+      })
+    } catch (error) {
+      console.log(error)
+    } finally {
+      this.hideLoader();
+    }
   }
 }
 </script>
