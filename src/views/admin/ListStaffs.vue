@@ -17,10 +17,10 @@
   <div class="responsive-table" v-else-if="staffList.length > 0">
     <div class="table-header row">
       <div class="col col-2"></div>
-      <div class="col col-3">{{ $t('admin.list_staff.first_name') }}</div>
-      <div class="col col-3">{{ $t('admin.list_staff.last_name') }}</div>
-      <div class="col col-3">{{ $t('admin.list_staff.email') }}</div>
-      <div class="col col-1">{{ $t('admin.list_staff.status') }}</div>
+      <div class="col col-3"><button @click="sortStaffs()">{{ $t('admin.list_staff.first_name') }}</button></div>
+      <div class="col col-3"><button>{{ $t('admin.list_staff.last_name') }}</button></div>
+      <div class="col col-3"><button>{{ $t('admin.list_staff.email') }}</button></div>
+      <div class="col col-1"><button>{{ $t('admin.list_staff.status') }}</button></div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -110,7 +110,23 @@ export default {
       errorMessages: {},
       invalidPage: false,
       hasNoRecords: false,
-      currentPage: 1
+      currentPage: 1,
+      sort_first_name: {
+        column_name: 'first_name',
+        sort_type: 'asc'
+      },
+      sort_email: {
+        column_name: 'email',
+        sort_type: 'asc'
+      },
+      sort_status: {
+        column_name: 'status',
+        sort_type: 'asc'
+      },
+      sort_date: {
+        column: 'name',
+        type: 'ác'
+      }
     }
   },
 
@@ -179,6 +195,10 @@ export default {
     },
     switchStatusStaff(staff) {
       StaffApi.update(staff['id'], { status: staff['status'] })
+    },
+    sortStaffs(sort_column, sort_type) {
+      let params = { sort: {sort_column: sort_column, sort_type: sort_type} }
+      this.getStaffList(params)
     }
   },
 
