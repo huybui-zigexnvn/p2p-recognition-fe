@@ -6,6 +6,9 @@ const AuthApi = {
   },
   changePassword: function( params ){
     return ApiService.put('/change_password', params)
+  },
+  getCurrentUser: function(){
+    return ApiService.get('/me')
   }
 }
 

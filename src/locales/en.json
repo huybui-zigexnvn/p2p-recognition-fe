@@ -58,5 +58,18 @@
     "you_lost": "Oops! You're lost.",
     "description": "The page you are looking for was not found.",
     "button_home_page": "Return to home page"
+  },
+  "profile": {
+    "email": "Email",
+    "full_name": "Full name",
+    "phone_number": "Phone number",
+    "birthday": "Birthday",
+    "role": "Role",
+    "button": {
+      "edit": "Edit",
+      "update": "Update"
+    },
+    "update_failed": "Update failed",
+    "update_success": "Update successfully"
   }
 }
