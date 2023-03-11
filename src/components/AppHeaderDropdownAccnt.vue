@@ -7,8 +7,8 @@
       <CDropdownHeader component="h6" class="bg-light fw-semibold py-2">
         {{ $t('header.settings') }}
       </CDropdownHeader>
-      <CDropdownItem> <CIcon icon="cil-user" /> {{ $t('header.settings') }} </CDropdownItem>
-      <CDropdownItem> <CIcon icon="cil-settings" /> {{ $t('header.profile') }} </CDropdownItem>
+      <a href="/profile" class="text-decoration-none"><CDropdownItem> <CIcon icon="cil-user" /> {{ $t('header.profile') }} </CDropdownItem></a>
+      <CDropdownItem> <CIcon icon="cil-settings" /> {{ $t('header.settings') }} </CDropdownItem>
       <CDropdownDivider />
       <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> {{ $t('header.logout') }} </CDropdownItem>
     </CDropdownMenu>
