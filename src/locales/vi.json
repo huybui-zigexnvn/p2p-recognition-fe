@@ -64,9 +64,21 @@
     "role": "Vai trò",
     "button": {
       "edit": "Sửa",
-      "update": "Cập nhật"
+      "update": "Cập nhật",
+      "edit_password": "Đổi mật khẩu"
     },
     "update_failed": "Cập nhật lỗi",
     "update_success": "Cập nhật thành công"
+  },
+  "update_password": {
+    "title": "Đổi mật khẩu",
+    "button": "Đổi mật khẩu",
+    "placeholder": {
+      "current_password": "Mật khẩu hiện tại",
+      "new_password": "Mật khẩu mới",
+      "password_confirmation": "Xác nhận mật khẩu"
+    },
+    "failed": "Cập nhật lỗi",
+    "success": "Cập nhật thành công, vui lòng đăng nhập lại"
   }
 }

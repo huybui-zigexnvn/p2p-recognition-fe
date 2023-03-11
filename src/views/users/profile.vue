@@ -34,6 +34,9 @@
       <a href="/edit-profile">
         <button type="button" class="btn btn-info button-edit">{{ $t('profile.button.edit') }}</button>
       </a>
+      <a href="/edit-password">
+        <button type="button" class="btn btn-warning button-edit-password">{{ $t('profile.button.edit_password') }}</button>
+      </a>
     </div>
   </div>
 </template>
