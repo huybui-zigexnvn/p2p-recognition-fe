@@ -19,6 +19,17 @@
         "close": "Đóng",
         "save": "Lưu"
       }
+    },
+    "staff_profile": {
+      "first_name": "Tên",
+      "last_name": "Họ",
+      "email": "Email",
+      "phone_numbers": "Số điện thoại",
+      "birthday": "Ngày sinh",
+      "status": "Trạng thái",
+      "edit": "Sửa",
+      "save": "Lưu",
+      "cancel": "Hủy bỏ"
     }
   },
   "header": {

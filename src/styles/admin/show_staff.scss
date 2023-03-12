@@ -1,0 +1,14 @@
+.form-control {
+  min-height: 40px;
+  &:disabled {
+    border-color: #ddd;
+    background-color: #f6f6f6;
+  }
+}
+.staff-avatar {
+  height: 200px;
+  width: 200px;
+}
+.staff-status {
+  display: inline-grid;
+}

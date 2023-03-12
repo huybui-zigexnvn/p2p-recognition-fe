@@ -2,7 +2,7 @@ export default [
   {
     component: 'CNavItem',
     name: 'List Staffs',
-    to: '/admin/list_staffs',
+    to: '/admin/staffs',
     icon: 'cil-people',
   },
 ]

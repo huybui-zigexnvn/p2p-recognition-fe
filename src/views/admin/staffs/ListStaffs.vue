@@ -31,7 +31,7 @@
       </div>
       <div class="col col-3 text-truncate">{{staff['first_name']}}</div>
       <div class="col col-3 text-truncate">{{staff['last_name']}}</div>
-      <div class="col col-3 text-truncate">{{staff['email']}}</div>
+      <div class="col col-3 text-truncate"><router-link :to="{name: 'Staff Profile', params: {id: staff['id']}}">{{staff['email']}}</router-link></div>
       <div class="col col-2">
         <label class="toggle">
           <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change=" switchStatusStaff(staff)">

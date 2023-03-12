@@ -19,6 +19,17 @@
         "close": "Close",
         "save": "Save"
       }
+    },
+    "staff_profile": {
+      "first_name": "First name",
+      "last_name": "Last name",
+      "email": "Email",
+      "phone_numbers": "Phone numbers",
+      "birthday": "Birthday",
+      "status": "Status",
+      "edit": "Edit",
+      "save": "Save",
+      "cancel": "Cancel"
     }
   },
   "header": {
