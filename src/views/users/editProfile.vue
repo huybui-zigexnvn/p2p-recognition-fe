@@ -110,9 +110,10 @@
             last_name: '',
             phone_numbers: '',
             birth_day: '',
-            avatar: ''
+            avatar_url: ''
           },
           previewImage: defaultAvatar,
+          image: null,
           loaded: false,
           errorMessages: {},
         } 
@@ -138,7 +139,13 @@
         data.append("last_name", this.currentUser.last_name)
         data.append("phone_numbers", this.currentUser.phone_numbers)
         data.append("birth_day", this.currentUser.birth_day)
-        data.append("avatar", this.currentUser.avatar)
+
+        if(this.image !== null){
+          data.append("avatar", this.currentUser.avatar_url)
+        } else {
+          data.delete("avatar");
+        }
+
         await StaffApi.updateProfile(data).then(response => {
           if(response.data.error){
             this.toast.error(`${this.$t('profile.update_failed')}`)
@@ -155,11 +162,11 @@
         })
       },
       uploadImage(e){
-        const image = e.target.files[0];
-        this.currentUser.avatar = e.target.files[0]
+        this.image = e.target.files[0];
+        this.currentUser.avatar_url = e.target.files[0]
 
         const reader = new FileReader();
-        reader.readAsDataURL(image);
+        reader.readAsDataURL(this.image);
         reader.onload = e =>{
           this.previewImage = e.target.result;
           this.errorMessages = {}
