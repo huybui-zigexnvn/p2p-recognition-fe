@@ -55,7 +55,6 @@
         </div>
       </div>
     </div>
-
     <div class="d-flex justify-content-center pt-5">
       <a href="/edit-profile">
         <button type="button" class="btn btn-info button-edit">{{ $t('profile.button.edit') }}</button>

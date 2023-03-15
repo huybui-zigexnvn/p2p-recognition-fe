@@ -54,6 +54,18 @@ const routes = [
     ]
   },
   {
+    path: '/edit-password', 
+    name: 'Edit password',
+    component: DefaultLayout,
+    redirect: '/edit-password',
+    children: [
+      {
+        path: '/edit-password',
+        component: () => import('@/views/users/editPassword'),
+      }
+    ]
+  },
+  {
     path: '/:pathMatch(.*)*', 
     name: 'NotFound',
     component: pageNotFound
