@@ -110,10 +110,9 @@
             last_name: '',
             phone_numbers: '',
             birth_day: '',
-            avatar_url: ''
+            avatar_url: null
           },
           previewImage: defaultAvatar,
-          image: null,
           loaded: false,
           errorMessages: {},
         } 
@@ -126,7 +125,7 @@
         try {
           await AuthApi.getCurrentUser({}).then((response) => {
             this.currentUser = response.data
-            this.previewImage = response.data.avatar_url
+            if(response.data.avatar_url) this.previewImage = response.data.avatar_url
             this.loaded = true
           })
         } catch (error) {
@@ -135,16 +134,26 @@
       },
       async updateProfile() {
         let data = new FormData();
-        data.append("first_name", this.currentUser.first_name)
-        data.append("last_name", this.currentUser.last_name)
-        data.append("phone_numbers", this.currentUser.phone_numbers)
-        data.append("birth_day", this.currentUser.birth_day)
+        let userAttributes = [
+          {"first_name": this.currentUser.first_name},
+          {"last_name": this.currentUser.last_name},
+          {"phone_numbers": this.currentUser.phone_numbers},
+          {"birth_day": this.currentUser.birth_day},
+          {"avatar": this.currentUser.avatar_url}
+        ]
 
-        if(this.image !== null){
-          data.append("avatar", this.currentUser.avatar_url)
-        } else {
-          data.delete("avatar");
-        }
+        userAttributes.forEach(value => {
+          let userAttr = Object.keys(value)[0]
+          let userValue = value[userAttr]
+          console.log(userAttr)
+          console.log(userValue)
+
+          if(userValue === null || userValue === undefined || (userAttr == "avatar" && !(userValue instanceof File))){
+            data.delete(userAttr);
+          } else {
+            data.append(userAttr, userValue)
+          }
+        })
 
         await StaffApi.updateProfile(data).then(response => {
           if(response.data.error){
@@ -162,11 +171,9 @@
         })
       },
       uploadImage(e){
-        this.image = e.target.files[0];
         this.currentUser.avatar_url = e.target.files[0]
-
         const reader = new FileReader();
-        reader.readAsDataURL(this.image);
+        reader.readAsDataURL(this.currentUser.avatar_url);
         reader.onload = e =>{
           this.previewImage = e.target.result;
           this.errorMessages = {}
