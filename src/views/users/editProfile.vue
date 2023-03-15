@@ -145,8 +145,6 @@
         userAttributes.forEach(value => {
           let userAttr = Object.keys(value)[0]
           let userValue = value[userAttr]
-          console.log(userAttr)
-          console.log(userValue)
 
           if(userValue === null || userValue === undefined || (userAttr == "avatar" && !(userValue instanceof File))){
             data.delete(userAttr);

@@ -100,7 +100,6 @@ export default {
       try {
         await AuthApi.getCurrentUser({}).then((response) => {
           this.currentUser = response.data
-          console.log(this.currentUser.avatar_url)
           if(this.currentUser.avatar_url) {
             this.previewImage = this.currentUser.avatar_url
           }
