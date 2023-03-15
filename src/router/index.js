@@ -30,6 +30,30 @@ const routes = [
     component: ChangePassword
   },
   {
+    path: '/profile', 
+    name: 'Profile',
+    component: DefaultLayout,
+    redirect: '/profile',
+    children: [
+      {
+        path: '/profile',
+        component: () => import('@/views/users/profile'),
+      }
+    ]
+  },
+  {
+    path: '/edit-profile', 
+    name: 'Edit Profile',
+    component: DefaultLayout,
+    redirect: '/edit-profile',
+    children: [
+      {
+        path: '/edit-profile',
+        component: () => import('@/views/users/editProfile'),
+      }
+    ]
+  },
+  {
     path: '/:pathMatch(.*)*', 
     name: 'NotFound',
     component: pageNotFound
