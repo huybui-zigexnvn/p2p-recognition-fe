@@ -7,7 +7,7 @@
         <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
-    <div class="d-flex justify-content-end align-items-center">
+    <div v-if="$ability.can('manage', 'staff')" class="d-flex justify-content-end align-items-center">
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
