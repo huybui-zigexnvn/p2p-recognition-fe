@@ -10,7 +10,7 @@ const StaffApi = {
   },
 
   update: function (staffId, staffParams) {
-    return ApiService.put(`/admin/update_staff/${staffId}`, { staff: staffParams });
+    return ApiService.put(`/admin/update_staff/${staffId}`, staffParams);
   },
 
   showStaff: function(staffId) {

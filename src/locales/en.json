@@ -29,7 +29,9 @@
       "status": "Status",
       "edit": "Edit",
       "save": "Save",
-      "cancel": "Cancel"
+      "cancel": "Cancel",
+      "upload_image": "Upload image",
+      "update_success": "Save successfully"
     }
   },
   "header": {

@@ -29,7 +29,9 @@
       "status": "Trạng thái",
       "edit": "Sửa",
       "save": "Lưu",
-      "cancel": "Hủy bỏ"
+      "cancel": "Hủy bỏ",
+      "upload_image": "Tải ảnh lên",
+      "update_success": "Lưu thành công"
     }
   },
   "header": {

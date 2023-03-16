@@ -1,8 +1,11 @@
 <template>
   <div class="container-lg">
-    <div class="staff-avatar mb-4">
-      <img :src="staff.avatar_path" width="200" height="200" v-if="staff.avatar_path">
-      <img src="@/assets/images/blank-profile-picture.png" width="200" height="200" v-else>
+    <div class="row mb-4">
+      <div class="staff-avatar d-flex justify-content-center">
+        <img class="mb-4" :src="this.defaultImgSrc" id="img-preview">
+        <label for="file-input" class="btn btn-primary" v-if="isEditing">{{ $t('admin.staff_profile.upload_image') }}</label>
+        <input accept="image/*" type="file" id="file-input" class="d-none" @change="uploadImage" />
+      </div>
     </div>
     <div class="row d-flex mb-4">
       <div class="col col-6">
@@ -60,15 +63,23 @@ import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 import Datepicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 import FormatDate from '@/minxins/formatDate';
+import default_avatar_image from "@/assets/images/blank-profile-picture.png";
+import { useToast } from 'vue-toastification';
 
 export default {
   name: 'Staff Profile',
   mixins: [FormatDate],
   components: { InvalidFieldErrorMessage, Datepicker },
+  setup() {
+    const toast = useToast();
+    return { toast }
+  },
   data() {
     return {
       isEditing: false,
       errorMessages: {},
+      defaultImgSrc: default_avatar_image,
+      avatar_image: null,
     }
   },
   computed: {
@@ -81,29 +92,48 @@ export default {
       showSatff: 'adminStaffs/showSatff',
     }),
     async updateStaff() {
-      let paramsProfile = {
-        first_name: this.staff.first_name,
-        last_name: this.staff.last_name,
-        phone_numbers: this.staff.phone_numbers,
-        birth_day: this.staff.birth_day,
-        status: this.staff.status,
+      let data = new FormData()
+      data.append("first_name", this.staff.first_name)
+      data.append("last_name", this.staff.last_name)
+      data.append("phone_numbers", this.staff.phone_numbers)
+      data.append("birth_day", this.staff.birth_day)
+      data.append("status", this.staff.status)
+      if(this.avatar_image) {
+        data.append("avatar", this.avatar_image)
       }
-      await StaffApi.update(this.staff.id, paramsProfile).then(() => {
+
+      await StaffApi.update(this.staff.id, data).then(() => {
         this.showSatff(this.staff.id)
         this.errorMessages = {}
         this.isEditing = false
+        this.toast.success(`${this.$t('admin.staff_profile.update_success')}`,{
+          timeout: 2000
+        });
       }).catch(error => {
         this.errorMessages = error.response.data.message
       })
     },
     cancelUpdate() {
+      const image = document.getElementById('img-preview')
+      image.src = this.defaultImgSrc
       this.showSatff(this.staff.id)
       this.errorMessages = {}
       this.isEditing = false
-    }
+    },
+    uploadImage(e) {
+      const imagePreview = document.getElementById('img-preview')
+      if(e.target.files.length) {
+        const imageFile = e.target.files[0]
+        this.avatar_image = imageFile
+        imagePreview.src = URL.createObjectURL(imageFile)
+      }
+    },
   },
-  created() {
-    this.showSatff(this.$route.params.id)
+  async mounted() {
+    await this.showSatff(this.$route.params.id)
+    if(this.staff.avatar_url){
+      this.defaultImgSrc = this.staff.avatar_url
+    }
   }
 }
 </script>
