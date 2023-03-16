@@ -78,7 +78,7 @@ export default {
     return {
       isEditing: false,
       errorMessages: {},
-      defaultImgSrc: default_avatar_image,
+      defaultImgSrc: null,
       avatar_image: null,
     }
   },
@@ -133,6 +133,8 @@ export default {
     await this.showSatff(this.$route.params.id)
     if(this.staff.avatar_url){
       this.defaultImgSrc = this.staff.avatar_url
+    }else{
+      this.defaultImgSrc = this.default_avatar_image
     }
   }
 }
