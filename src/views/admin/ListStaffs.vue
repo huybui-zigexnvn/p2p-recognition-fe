@@ -131,9 +131,10 @@ export default {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
+      turnOnLoading: 'loader/turnOn',
+      turnOffLoading: 'loader/turnOff'
     }),
     async submitStaffForm(){
-      this.showLoader()
       try {
         await StaffApi.create(this.newStaff).then(() => {
           this.getStaffList()
@@ -180,23 +181,17 @@ export default {
   },
 
   async mounted() {
-    this.showLoader();
     this.currentPage = parseInt(this.$route.query.page) || 0
     if (this.currentPage < 1) {
       this.currentPage = 1
       this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
     }
-
-    try {
-      await this.getStaffList({page: this.currentPage, q: this.currentSearch}).then((response) => {        
-        this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
-        this.hasNoRecords = this.staffList.length === 0
-      })
-    } catch (error) {
-      console.log(error)
-    } finally {
-      this.hideLoader();
-    }
+    this.turnOnLoading()
+    await this.getStaffList({page: this.currentPage, q: this.currentSearch}).then((response) => {        
+      this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
+      this.hasNoRecords = this.staffList.length === 0
+    })
+    this.turnOffLoading()
   }
 }
 </script>

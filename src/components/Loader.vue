@@ -1,5 +1,5 @@
 <template>
-  <div v-if="active" class="loader-wrapper">
+  <div v-if="loadingPageStatus == 'on'" class="loader-wrapper">
     <div class="loading">
       <div class="loader"></div>
     </div>
@@ -7,14 +7,17 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
 export default {
   name: 'Loader',
-  props: {
-    active: Boolean
+  computed: {
+    ...mapGetters({
+      loadingPageStatus: 'loader/loadingPageStatus'
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  @import '@/styles/loader'
+@import '@/styles/loader'
 </style>
