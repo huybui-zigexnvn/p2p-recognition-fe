@@ -10,12 +10,17 @@ const routes = [
     path: '/',
     name: 'Home',
     component: DefaultLayout,
-    redirect: '/admin/list_staffs',
+    redirect: '/admin/staffs',
     children: [
       {
-        path: '/admin/list_staffs',
+        path: 'admin/staffs',
         name: 'List Staffs',
-        component: () => import('@/views/admin/ListStaffs.vue'),
+        component: () => import('@/views/admin/staffs/ListStaffs.vue'),
+      },
+      {
+        path: 'admin/staffs/:id',
+        name: 'Staff Profile',
+        component: () => import('@/views/admin/staffs/StaffProfile.vue'),
       }
     ]
   },
