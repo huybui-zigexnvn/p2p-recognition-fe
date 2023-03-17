@@ -32,12 +32,12 @@
                 <label>{{ $t('profile.full_name') }}</label>
               </div>
               <div class='col-md-10'>
-                <div class='d-flex'>
-                  <div class='first-name'>
+                <div class='col-md-10  d-flex justify-content-between'>
+                  <div class='first-name col-sm-5'>
                     <input type='text' class='form-control' id='first-name' placeholder='Nguyễn' v-model="this.currentUser.first_name">
                     <InvalidFieldErrorMessage errorField="first_name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
-                  <div class='last-name'>
+                  <div class='last-name col-sm-5'>
                     <input type='text' class='form-control' id='last-name' placeholder='Văn' v-model="this.currentUser.last_name">
                     <InvalidFieldErrorMessage errorField="last_name" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
@@ -122,15 +122,13 @@
     },
     methods: {
       async getCurrentPassword() {
-        try {
-          await AuthApi.getCurrentUser({}).then((response) => {
-            this.currentUser = response.data
-            if(response.data.avatar_url) this.previewImage = response.data.avatar_url
-            this.loaded = true
-          })
-        } catch (error) {
-          console.log(error)
-        }
+        await AuthApi.getCurrentUser({}).then((response) => {
+          this.currentUser = response.data
+          if(response.data.avatar_url) this.previewImage = response.data.avatar_url
+          this.loaded = true
+        }).catch(error => {
+          console.error(error)
+        })
       },
       async updateProfile() {
         let data = new FormData();
@@ -142,28 +140,25 @@
           {"avatar": this.currentUser.avatar_url}
         ]
 
-        userAttributes.forEach(value => {
-          let userAttr = Object.keys(value)[0]
-          let userValue = value[userAttr]
-
-          if(userValue === null || userValue === undefined || (userAttr == "avatar" && !(userValue instanceof File))){
-            data.delete(userAttr);
-          } else {
-            data.append(userAttr, userValue)
+        for (var i = 0; i < userAttributes.length; i++) {
+          for (var key in userAttributes[i]) {
+            let userAttr = key
+            let userValue = userAttributes[i][key]
+            if(userValue === null || userValue === undefined || (userAttr == "avatar" && !(userValue instanceof File))){
+              data.delete(userAttr);
+            } else {
+              data.append(userAttr, userValue)
+            }
           }
-        })
+        }
 
         await StaffApi.updateProfile(data).then(response => {
-          if(response.data.error){
-            this.toast.error(`${this.$t('profile.update_failed')}`)
-            return;
-          } else {
-            this.$router.push('/profile')
-            this.toast.success(`${this.$t('profile.update_success')}`, {
-              timeout: 2000
-            });
-          }
+          this.$router.push('/profile')
+          this.toast.success(`${this.$t('profile.update_success')}`, {
+            timeout: 2000
+          });
         }).catch(error => {
+          this.toast.error(`${this.$t('profile.update_failed')}`)
           if (error.response.data.message) {this.errorMessages = error.response.data.message}
           console.log(error)
         })

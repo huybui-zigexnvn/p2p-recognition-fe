@@ -88,7 +88,7 @@ export default {
     }
   },
   created() {
-    this.getCurrentPassword()
+    this.getCurrentUser()
   },
   computed: {
     fullName() {
@@ -96,18 +96,16 @@ export default {
     },
   },
   methods: {
-    async getCurrentPassword() {
-      try {
-        await AuthApi.getCurrentUser({}).then((response) => {
-          this.currentUser = response.data
-          if(this.currentUser.avatar_url) {
-            this.previewImage = this.currentUser.avatar_url
-          }
-          this.loaded = true
-        })
-      } catch (error) {
-        console.log(error)
-      }
+    async getCurrentUser() {
+      await AuthApi.getCurrentUser({}).then((response) => {
+        this.currentUser = response.data
+        if(this.currentUser.avatar_url) {
+          this.previewImage = this.currentUser.avatar_url
+        }
+        this.loaded = true
+      }).catch(error => {
+        console.error(error)
+      })
     },
   }
 }

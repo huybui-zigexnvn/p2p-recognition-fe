@@ -4,23 +4,20 @@ import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
 import pageNotFound from '@/views/pageNotFound'
+import listStaff from '@/views/admin/ListStaffs.vue'
+import Profile from '@/views/users/profile'
+import editProfile from '@/views/users/editProfile'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: DefaultLayout,
-    redirect: '/admin/list_staffs',
-    children: [
-      {
-        path: '/admin/list_staffs',
-        name: 'List Staffs',
-        component: () => import('@/views/admin/ListStaffs.vue'),
-      }
-    ]
+    path: '/admin/list_staffs',
+    meta:{layout:"defaultLayout"},  
+    component: listStaff
   },
   {
-    path: '/login', 
+    path: '/login',
     name: 'Login',
     component: Login
   },
@@ -30,28 +27,16 @@ const routes = [
     component: ChangePassword
   },
   {
-    path: '/profile', 
-    name: 'Profile',
-    component: DefaultLayout,
-    redirect: '/profile',
-    children: [
-      {
-        path: '/profile',
-        component: () => import('@/views/users/profile'),
-      }
-    ]
+    path: '/profile',
+    name: 'profile',
+    meta:{layout:"defaultLayout"},
+    component: Profile
   },
   {
-    path: '/edit-profile', 
+    path: '/edit-profile',
     name: 'Edit Profile',
-    component: DefaultLayout,
-    redirect: '/edit-profile',
-    children: [
-      {
-        path: '/edit-profile',
-        component: () => import('@/views/users/editProfile'),
-      }
-    ]
+    meta:{layout:"defaultLayout"},
+    component: editProfile
   },
   {
     path: '/:pathMatch(.*)*', 
