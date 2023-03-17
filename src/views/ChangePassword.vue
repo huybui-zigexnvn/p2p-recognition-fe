@@ -63,6 +63,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import StaffApi from "@/backend/staff";
 import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 import PageNotFound from '@/views//pageNotFound'
@@ -87,8 +88,13 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      turnOnLoading: 'loader/turnOn',
+      turnOffLoading: 'loader/turnOff'
+    }),
     async changePassword() {
       this.showLoader()
+      this.turnOnLoading()
       await StaffApi.changePassword({ token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation }).then(response => {
         if (response.data.error) {
           this.toast.error(`${this.$t('change_password.failed')}`)
@@ -105,6 +111,7 @@ export default {
         if (error.response.data.message) { this.errorMessages = error.response.data.message }
         console.log(error)
       })
+      this.turnOffLoading()
     },
 
     async checkTokenChangePassword() {
