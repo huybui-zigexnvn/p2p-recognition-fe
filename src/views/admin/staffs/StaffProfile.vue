@@ -134,7 +134,7 @@ export default {
     if(this.staff.avatar_url){
       this.defaultImgSrc = this.staff.avatar_url
     }else{
-      this.defaultImgSrc = this.default_avatar_image
+      this.defaultImgSrc = default_avatar_image
     }
   }
 }
