@@ -1,5 +1,4 @@
 <template>
-  <loader :active="loaderActive"/>
   <div class="d-flex">
     <div class="input-group">
       <div class="form-search d-flex align-items-center">
@@ -96,13 +95,10 @@
 import { mapActions, mapGetters } from 'vuex';
 import StaffApi from "@/backend/admin/staffs";
 import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
-import Loader from '@/components/Loader.vue'
-import loaderMixin from '@/mixins/loader';
 
 export default {
   name: 'ListStaffs',
-  components: { InvalidFieldErrorMessage, Loader },
-  mixins: [loaderMixin],
+  components: { InvalidFieldErrorMessage },
   data() {
     return {
       newStaff: {
