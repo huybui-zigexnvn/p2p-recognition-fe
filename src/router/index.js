@@ -20,17 +20,17 @@ const routes = [
     ]
   },
   {
-    path: '/login', 
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/change_password', 
+    path: '/change_password',
     name: 'ChangePassword',
     component: ChangePassword
   },
   {
-    path: '/:pathMatch(.*)*', 
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: pageNotFound
   }

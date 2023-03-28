@@ -60,22 +60,22 @@
         passwordConfirmation: '',
         errorMessages: {},
         notFound: false,
-      } 
+      }
     },
     components: { InvalidFieldErrorMessage, PageNotFound },
     methods: {
       async changePassword() {
         await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then(response => {
           if(response.data.error){
-              this.toast.error(`${this.$t('change_password.failed')}`)
-              return;
-            } else {
-              window.localStorage.setItem('token', '');
-              this.$router.push('/login')
-              this.toast.success(`${this.$t('change_password.success')}`, {
-                timeout: 2000
-              });
-            }
+            this.toast.error(`${this.$t('change_password.failed')}`)
+            return;
+          } else {
+            window.localStorage.setItem('token', '');
+            this.$router.push('/login')
+            this.toast.success(`${this.$t('change_password.success')}`, {
+              timeout: 2000
+            });
+          }
         }).catch(error => {
           if (error.response.data.message) {this.errorMessages = error.response.data.message}
           console.log(error)
