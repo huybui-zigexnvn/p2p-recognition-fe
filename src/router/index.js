@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DefaultLayout from '@/layouts/DefaultLayout'
-import LayoutWithoutLogin from '@/layouts/LayoutWithoutLogin'
 import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
@@ -21,24 +20,17 @@ const routes = [
     ]
   },
   {
-    path: '/login', 
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/',
-    name: 'Not Login',
-    component: LayoutWithoutLogin,
-    children: [
-      {
-        path: '/change_password', 
-        name: 'ChangePassword',
-        component: ChangePassword
-      }
-    ]
+    path: '/change_password',
+    name: 'ChangePassword',
+    component: ChangePassword
   },
   {
-    path: '/:pathMatch(.*)*', 
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: pageNotFound
   }

@@ -34,12 +34,12 @@
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
-        :total-items="totalStaff"
-        :items-per-page="10"
-        :max-pages-shown="5"
-        v-model="currentPage"
-        :on-click="handlerPaginate"
-        :hide-prev-next-when-ends="true"
+          :total-items="totalStaff"
+          :items-per-page="10"
+          :max-pages-shown="5"
+          v-model="currentPage"
+          :on-click="handlerPaginate"
+          :hide-prev-next-when-ends="true"
       >
         <template #prev-button>
           <CIcon icon="cilChevronLeft"/>
@@ -106,6 +106,7 @@ export default {
       currentPage: 1
     }
   },
+
   computed: {
     ...mapGetters({
       staffList: 'adminStaffs/staffList',
@@ -127,24 +128,19 @@ export default {
     ...mapActions({
       getStaffList: 'adminStaffs/getList',
       createStaff: 'adminStaffs/createStaff',
-      turnOnLoading: 'loader/turnOn',
-      turnOffLoading: 'loader/turnOff'
     }),
-    async submitStaffForm(){
-      try {
-        await StaffApi.create(this.newStaff).then(() => {
-          this.getStaffList()
-          this.newStaff = { email: '', first_name: '', last_name: '' }
-          this.errorMessages = {}
-          this.searchValue = ''
-          this.currentPage = 1
-          this.$router.push(this.$route.path)
-          this.closeModal()
-          this.hideLoader()
-        })
-      } catch(error) {
+    submitStaffForm(){
+      StaffApi.create(this.newStaff).then(() => {
+        this.getStaffList()
+        this.newStaff = { email: '', first_name: '', last_name: '' }
+        this.errorMessages = {}
+        this.searchValue = ''
+        this.currentPage = 1
+        this.$router.push(this.$route.path)
+        this.closeModal()
+      }).catch(error => {
         this.errorMessages = error.response.data.message
-      }
+      })
     },
     closeModal() {
       this.visibleModal = false
@@ -182,15 +178,13 @@ export default {
       this.currentPage = 1
       this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
     }
-    this.turnOnLoading()
-    await this.getStaffList({page: this.currentPage, q: this.currentSearch}).then((response) => {        
-      this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
-      this.hasNoRecords = this.staffList.length === 0
-    })
-    this.turnOffLoading()
+
+    await this.getStaffList({page: this.currentPage, q: this.currentSearch})
+    this.searchValue = this.currentSearch && this.currentSearch.first_name_or_last_name_or_email_cont
+    this.hasNoRecords = this.staffList.length === 0
   }
 }
 </script>
 <style lang="scss" scoped>
-  @import '@/styles/admin/list_staffs'
+@import '@/styles/admin/list_staffs'
 </style>
