@@ -34,12 +34,12 @@
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
-          :total-items="totalStaff"
-          :items-per-page="10"
-          :max-pages-shown="5"
-          v-model="currentPage"
-          :on-click="handlerPaginate"
-          :hide-prev-next-when-ends="true"
+        :total-items="totalStaff"
+        :items-per-page="10"
+        :max-pages-shown="5"
+        v-model="currentPage"
+        :on-click="handlerPaginate"
+        :hide-prev-next-when-ends="true"
       >
         <template #prev-button>
           <CIcon icon="cilChevronLeft"/>
@@ -186,5 +186,5 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import '@/styles/admin/list_staffs'
+  @import '@/styles/admin/list_staffs'
 </style>

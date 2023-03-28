@@ -43,65 +43,65 @@
 </template>
 
 <script>
-import StaffApi from "@/backend/staff";
-import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
-import PageNotFound from '@/views//pageNotFound'
-import { useToast } from 'vue-toastification'
+  import StaffApi from "@/backend/staff";
+  import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
+  import PageNotFound from '@/views//pageNotFound'
+  import { useToast } from 'vue-toastification'
 
-export default {
-  setup() {
-    const toast = useToast();
-    return { toast }
-  },
-  data() {
-    return {
-      password: '',
-      changePasswordToken: this.$route.query.token,
-      passwordConfirmation: '',
-      errorMessages: {},
-      notFound: false,
-    }
-  },
-  components: { InvalidFieldErrorMessage, PageNotFound },
-  methods: {
-    async changePassword() {
-      await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then(response => {
-        if(response.data.error){
-          this.toast.error(`${this.$t('change_password.failed')}`)
-          return;
-        } else {
-          window.localStorage.setItem('token', '');
-          this.$router.push('/login')
-          this.toast.success(`${this.$t('change_password.success')}`, {
-            timeout: 2000
-          });
-        }
-      }).catch(error => {
-        if (error.response.data.message) {this.errorMessages = error.response.data.message}
-        console.log(error)
-      })
+  export default {
+    setup() {
+      const toast = useToast();
+      return { toast }
     },
+    data() {
+      return {
+        password: '',
+        changePasswordToken: this.$route.query.token,
+        passwordConfirmation: '',
+        errorMessages: {},
+        notFound: false,
+      }
+    },
+    components: { InvalidFieldErrorMessage, PageNotFound },
+    methods: {
+      async changePassword() {
+        await StaffApi.changePassword({token: this.changePasswordToken, password: this.password, password_confirmation: this.passwordConfirmation}).then(response => {
+          if(response.data.error){
+            this.toast.error(`${this.$t('change_password.failed')}`)
+            return;
+          } else {
+            window.localStorage.setItem('token', '');
+            this.$router.push('/login')
+            this.toast.success(`${this.$t('change_password.success')}`, {
+              timeout: 2000
+            });
+          }
+        }).catch(error => {
+          if (error.response.data.message) {this.errorMessages = error.response.data.message}
+          console.log(error)
+        })
+      },
 
-    async checkTokenChangePassword() {
-      await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then(response => {}).catch(error => {
-        if(error.response.request.status === 404) {
-          this.notFound = true
-          this.toast.error(error.response.data.error_token_message)
-        }
-      })
+      async checkTokenChangePassword() {
+        await StaffApi.checkTokenChangePassword({token: this.changePasswordToken}).then(response => {}).catch(error => {
+          if(error.response.request.status === 404) {
+            this.notFound = true
+            this.toast.error(error.response.data.error_token_message)
+          }
+        })
+      },
+      onSubmit() {
+        this.changePassword()
+      }
     },
-    onSubmit() {
-      this.changePassword()
-    }
-  },
-  created() {
-    this.checkTokenChangePassword()
-  },
-}
+    created() {
+      this.checkTokenChangePassword()
+    },
+  }
 </script>
 
 <style scoped>
-.error-message {
-  color: red;
-}
+  .error-message {
+    color: red;
+  }
 </style>
