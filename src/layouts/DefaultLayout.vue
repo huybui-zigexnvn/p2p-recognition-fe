@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Loader></Loader>
+    <Loader v-if="loadingPageStatus === 'on'" ></Loader>
     <AppSidebar />
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
       <AppHeader />
@@ -17,6 +17,7 @@ import { CContainer } from '@coreui/vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 import Loader from '@/components/Loader'
+import {mapGetters} from "vuex";
 
 export default {
   name: 'DefaultLayout',
@@ -25,6 +26,11 @@ export default {
     AppSidebar,
     CContainer,
     Loader
+  },
+  computed: {
+    ...mapGetters({
+      loadingPageStatus: 'loader/loadingPageStatus'
+    })
   }
 }
 </script>
