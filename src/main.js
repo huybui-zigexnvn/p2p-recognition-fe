@@ -15,6 +15,8 @@ import vi from "./locales/vi.json";
 import en from "./locales/en.json";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { abilitiesPlugin } from '@casl/vue';
+import ability from './services/ability';
 
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
@@ -35,4 +37,7 @@ app.use(VueAwesomePaginate)
 app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
+app.use(abilitiesPlugin, ability(), {
+  useGlobalProperties: true
+})
 app.mount('#app')

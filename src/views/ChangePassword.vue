@@ -45,7 +45,7 @@
 <script>
   import StaffApi from "@/backend/staff";
   import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
-  import PageNotFound from '@/views//pageNotFound'
+  import PageNotFound from '@/views/pageNotFound'
   import { useToast } from 'vue-toastification'
 
   export default {

@@ -8,6 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@casl/ability": "^6.3.3",
+    "@casl/vue": "^2.2.1",
     "@coreui/coreui": "^4.2.4",
     "@coreui/icons": "^2.1.0",
     "@coreui/icons-vue": "^2.0.0",
