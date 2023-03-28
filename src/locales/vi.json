@@ -9,6 +9,7 @@
       "email": "Email",
       "search_placeholder": "Tìm kiếm...",
       "no_records_message": "Không có bản ghi nào",
+      "status": "Trạng thái",
       "form_create": {
         "title": "Thêm nhân viên",
         "email": "Địa chỉ email",
