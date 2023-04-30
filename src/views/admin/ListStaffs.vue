@@ -6,7 +6,7 @@
         <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
-    <div class="d-flex justify-content-end align-items-center">
+    <div v-if="$ability.can('manage', 'staff')" class="d-flex justify-content-end align-items-center">
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
@@ -19,7 +19,8 @@
       <div class="col col-2"></div>
       <div class="col col-3">{{ $t('admin.list_staff.first_name') }}</div>
       <div class="col col-3">{{ $t('admin.list_staff.last_name') }}</div>
-      <div class="col col-4">{{ $t('admin.list_staff.email') }}</div>
+      <div class="col col-3">{{ $t('admin.list_staff.email') }}</div>
+      <div class="col col-1">{{ $t('admin.list_staff.status') }}</div>
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-2 text-center">
@@ -30,7 +31,13 @@
       </div>
       <div class="col col-3 text-truncate">{{staff['first_name']}}</div>
       <div class="col col-3 text-truncate">{{staff['last_name']}}</div>
-      <div class="col col-4 text-truncate">{{staff['email']}}</div>
+      <div class="col col-3 text-truncate">{{staff['email']}}</div>
+      <div class="col col-1">
+        <label class="toggle">
+          <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change="switchStatusStaff(staff)">
+          <div class="toggle-switch"></div>
+        </label>
+      </div>
     </div>
     <div class="pagination d-flex justify-content-center">
       <vue-awesome-paginate
@@ -169,6 +176,9 @@ export default {
       if(this.currentPage === 1) delete params.page
 
       return params
+    },
+    switchStatusStaff(staff) {
+      StaffApi.update(staff['id'], { status: staff['status'] })
     }
   },
 

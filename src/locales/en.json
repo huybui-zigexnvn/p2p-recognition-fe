@@ -9,6 +9,7 @@
       "email": "Email",
       "search_placeholder": "Search...",
       "no_records_message": "There are no records",
+      "status": "Status",
       "form_create": {
         "title": "Add Staff",
         "email": "Email Address",

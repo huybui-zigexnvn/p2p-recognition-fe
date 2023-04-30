@@ -13,10 +13,11 @@ import ApiService from "@/backend/api_services";
 import { createI18n } from 'vue-i18n'
 import vi from "./locales/vi.json";
 import en from "./locales/en.json";
-import mixinDetictingMobile from './minxins/mixinDetictingMobile'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import DefaultLayout from './layouts/DefaultLayout'
+import { abilitiesPlugin } from '@casl/vue';
+import ability from './services/ability';
 
 const API_URL = `${process.env.VUE_APP_API_URL}/api/v1`;
 ApiService.init(API_URL);
@@ -38,5 +39,7 @@ app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DefaultLayout', DefaultLayout)
-app.mixin(mixinDetictingMobile)
+app.use(abilitiesPlugin, ability(), {
+  useGlobalProperties: true
+})
 app.mount('#app')

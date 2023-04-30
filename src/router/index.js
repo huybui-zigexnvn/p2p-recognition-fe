@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
@@ -13,7 +12,7 @@ const routes = [
     path: '/',
     name: 'Home',
     path: '/admin/list_staffs',
-    meta:{layout:"defaultLayout"},  
+    meta: { layout:"defaultLayout" },
     component: listStaff
   },
   {
@@ -22,24 +21,24 @@ const routes = [
     component: Login
   },
   {
-    path: '/change_password', 
+    path: '/change_password',
     name: 'ChangePassword',
     component: ChangePassword
   },
   {
     path: '/profile',
     name: 'profile',
-    meta:{layout:"defaultLayout"},
+    meta: { layout:"defaultLayout" },
     component: Profile
   },
   {
     path: '/edit-profile',
     name: 'Edit Profile',
-    meta:{layout:"defaultLayout"},
+    meta: { layout:"defaultLayout" },
     component: editProfile
   },
   {
-    path: '/:pathMatch(.*)*', 
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: pageNotFound
   }

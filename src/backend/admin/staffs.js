@@ -7,6 +7,10 @@ const StaffApi = {
 
   create: function (staffParams) {
     return ApiService.post('/admin/create_staff', { staff: staffParams });
+  },
+
+  update: function (staffId, staffParams) {
+    return ApiService.put(`/admin/staffs/${staffId}/update`, { staff: staffParams });
   }
 }
 

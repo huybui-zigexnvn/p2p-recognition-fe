@@ -39,9 +39,6 @@
                 </form>
               </div>
             </div>
-            <div v-if="!isMobile()" class="card col-md-5 text-white py-5 logo-area">
-              <CImage fluid src="/logo-zigexn.png" />
-            </div>
           </div>
         </div>
       </div>
@@ -59,7 +56,7 @@
         password: '',
         loginFailedMessage: '',
         errorMessages: []
-      } 
+      }
     },
     methods: {
       async login() {
@@ -68,7 +65,7 @@
             if(response.data.json.error){
               this.validateEmail(this.email)
               this.validatePassword(this.password)
-              this.loginFailedMessage = this.$t('login.login_failed') 
+              this.loginFailedMessage = this.$t('login.login_failed')
               return;
             } else {
               window.localStorage.setItem('token', response.data.json.token);
