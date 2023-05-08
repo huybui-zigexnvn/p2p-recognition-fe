@@ -1,9 +1,9 @@
 <template>
-  <div v-if="this.loaded" class='col-md-12'>
+  <div class='col-md-12'>
     <div class='d-flex'>
       <div id='area-avatar'>
         <div class='display-avatar d-flex justify-content-center align-item-center'>
-          <img :src="this.previewImage" class='uploading-image' name='avatar' />
+          <img :src="avatarSource" class='uploading-image' name='avatar' />
         </div>
       </div>
       <div class='card information'>
@@ -22,7 +22,7 @@
               <label>{{ $t('profile.full_name') }}</label>
             </div>
             <div class='col-md-10'>
-              {{ fullName }}
+              {{ this.currentUser.full_name }}
             </div>
           </div>
           <hr>
@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import AuthApi from "@/backend/auth";
+import { mapActions, mapGetters } from 'vuex';
 import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
 import { useToast } from 'vue-toastification'
 import FormatDate from '@/minxins/formatDate'
@@ -81,32 +81,24 @@ export default {
   },
   data() {
     return {
-      currentUser: {},
-      loaded: false,
       errorMessages: {},
-      previewImage: defaultAvatar
+    }
+  },
+  computed: {
+    ...mapGetters({
+      currentUser: 'currentUser/current_user',
+    }),
+    avatarSource() {
+      return this.currentUser.avatar_url ? this.currentUser.avatar_url : defaultAvatar
     }
   },
   created() {
     this.getCurrentUser()
   },
-  computed: {
-    fullName() {
-      return `${this.currentUser.first_name} ${this.currentUser.last_name}`
-    },
-  },
   methods: {
-    async getCurrentUser() {
-      await AuthApi.getCurrentUser({}).then((response) => {
-        this.currentUser = response.data
-        if(this.currentUser.avatar_url) {
-          this.previewImage = this.currentUser.avatar_url
-        }
-        this.loaded = true
-      }).catch(error => {
-        console.error(error)
-      })
-    },
+    ...mapActions({
+      getCurrentUser: 'currentUser/getCurrentUser'
+    })
   }
 }
 </script>

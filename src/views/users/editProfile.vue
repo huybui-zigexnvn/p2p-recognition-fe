@@ -1,10 +1,10 @@
 <template>
-  <div v-if="this.loaded" class='col-md-12'>
+  <div class='col-md-12'>
     <form @submit.prevent="onSubmit">
       <div class='d-flex'>
         <div id='area-avatar'>
           <div class='display-avatar d-flex justify-content-center align-item-center'>
-            <img :src="previewImage" class='uploading-image' name='avatar'/>
+            <img :src="avatarSource" class='uploading-image' name='avatar'/>
           </div>
           <div id='button-upload'>
             <div class='d-flex justify-content-center'>
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-  import AuthApi from "@/backend/auth";
+  import { mapActions, mapGetters } from 'vuex';
   import InvalidFieldErrorMessage from "@/views/shared/InvalidFieldErrorMessage";
   import StaffApi from "@/backend/staff";
   import Datepicker from '@vuepic/vue-datepicker';
@@ -103,33 +103,30 @@
       return { toast }
     },
     data() {
-        return {
-          date: new Date(2016, 9,  16),
-          currentUser: {
-            first_name: '',
-            last_name: '',
-            phone_numbers: '',
-            birth_day: '',
-            avatar_url: null
-          },
-          previewImage: defaultAvatar,
-          loaded: false,
-          errorMessages: {},
-        } 
-      },
-    created() {
-      this.getCurrentPassword()
+      return {
+        date: new Date(2016, 9,  16),
+        previewImage: defaultAvatar,
+        loaded: false,
+        errorMessages: {},
+      }
     },
+    computed: {
+      ...mapGetters({
+        currentUser: 'currentUser/current_user',
+      }),
+      avatarSource() {
+        return this.currentUser.avatar_url ? this.currentUser.avatar_url : defaultAvatar
+      }
+    },
+    created() {
+      this.getCurrentUser()
+      this.targetUser = this.currentUser
+    },
+
     methods: {
-      async getCurrentPassword() {
-        await AuthApi.getCurrentUser({}).then((response) => {
-          this.currentUser = response.data
-          if(response.data.avatar_url) this.previewImage = response.data.avatar_url
-          this.loaded = true
-        }).catch(error => {
-          console.error(error)
-        })
-      },
+      ...mapActions({
+        getCurrentUser: 'currentUser/getCurrentUser'
+      }),
       async updateProfile() {
         let data = new FormData();
         let userAttributes = [
@@ -160,7 +157,6 @@
         }).catch(error => {
           this.toast.error(`${this.$t('profile.update_failed')}`)
           if (error.response.data.message) {this.errorMessages = error.response.data.message}
-          console.log(error)
         })
       },
       uploadImage(e){

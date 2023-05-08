@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import adminStaffs from './modules/admin/staffs'
+import currentUser from './modules/currentUser'
 import loader from './modules/loader'
 
 export default createStore({
@@ -21,6 +22,7 @@ export default createStore({
   actions: {},
   modules: {
     adminStaffs,
+    currentUser,
     loader
   },
 })
