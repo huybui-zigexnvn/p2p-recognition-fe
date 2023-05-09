@@ -7,10 +7,10 @@
       <CDropdownHeader component="h6" class="bg-light fw-semibold py-2">
         {{ $t('header.settings') }}
       </CDropdownHeader>
-      <a href="/profile" class="text-decoration-none"><CDropdownItem> <CIcon icon="cil-user" /> {{ $t('header.profile') }} </CDropdownItem></a>
-      <CDropdownItem> <CIcon icon="cil-settings" /> {{ $t('header.settings') }} </CDropdownItem>
+      <CDropdownItem @click="profile" class="hover-pointer"> <CIcon icon="cil-user" /> {{ $t('header.profile') }} </CDropdownItem>
+      <CDropdownItem class="hover-pointer"> <CIcon icon="cil-settings" /> {{ $t('header.settings') }} </CDropdownItem>
       <CDropdownDivider />
-      <CDropdownItem @click="logout"> <CIcon icon="cil-lock-locked" /> {{ $t('header.logout') }} </CDropdownItem>
+      <CDropdownItem @click="logout" class="hover-pointer"> <CIcon icon="cil-lock-locked" /> {{ $t('header.logout') }} </CDropdownItem>
     </CDropdownMenu>
   </CDropdown>
 </template>
@@ -22,8 +22,11 @@ export default {
   methods: {
     logout() {
       window.localStorage.setItem('token', '');
-      this.$router.push('/login')
+      this.$router.push({ name: 'login'})
     },
+    profile() {
+      this.$router.push({ name: 'profile' })
+    }
   },
   setup() {
     return {
@@ -32,3 +35,7 @@ export default {
   },
 }
 </script>
+
+<style lang="scss" scoped>
+@import '@/styles/app_header_dropdown'
+</style>
