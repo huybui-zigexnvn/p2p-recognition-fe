@@ -102,8 +102,6 @@
   }
 </script>
 
-<style scoped>
-  .error-message {
-    color: red;
-  }
+<style lang="scss" scoped>
+  @import '@/styles/user/edit_password'
 </style>

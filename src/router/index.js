@@ -34,7 +34,7 @@ const routes = [
   },
   {
     path: '/edit-profile',
-    name: 'Edit Profile',
+    name: 'Edit profile',
     meta: { layout:"defaultLayout" },
     component: editProfile
   },
