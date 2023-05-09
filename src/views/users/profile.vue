@@ -3,7 +3,7 @@
     <div class='d-flex'>
       <div id='area-avatar'>
         <div class='display-avatar d-flex justify-content-center align-item-center'>
-          <img :src="avatarSource" class='uploading-image' name='avatar' />
+          <img :src="this.previewAvatar" class='uploading-image' name='avatar' />
         </div>
       </div>
       <div class='card information'>
@@ -82,22 +82,26 @@ export default {
   data() {
     return {
       errorMessages: {},
+      defaultAvatar: defaultAvatar,
+      previewAvatar: null,
     }
   },
   computed: {
     ...mapGetters({
       currentUser: 'currentUser/current_user',
     }),
-    avatarSource() {
-      return this.currentUser.avatar_url ? this.currentUser.avatar_url : defaultAvatar
-    }
   },
-  created() {
-    this.getCurrentUser()
-  },
+  async mounted() {
+      this.turnOnLoading()
+      await this.getCurrentUser()
+      this.previewAvatar = this.currentUser.avatar_url || this.defaultAvatar
+      this.turnOffLoading()
+    },
   methods: {
     ...mapActions({
-      getCurrentUser: 'currentUser/getCurrentUser'
+      getCurrentUser: 'currentUser/getCurrentUser',
+      turnOnLoading: 'loader/turnOn',
+      turnOffLoading: 'loader/turnOff',
     })
   }
 }

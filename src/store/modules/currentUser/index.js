@@ -16,8 +16,7 @@ export const actions = {
   async getCurrentUser({ commit }, params) {
     await AuthApi.getCurrentUser({}).then((response) => {
       let currentUser = response.data
-      console.log(currentUser)
-      commit(CURRENT_USER, currentUser);
+      commit(CURRENT_USER, currentUser)
     }).catch(error => {
       console.error(error)
     })

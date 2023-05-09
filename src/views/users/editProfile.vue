@@ -4,7 +4,7 @@
       <div class='d-flex'>
         <div id='area-avatar'>
           <div class='display-avatar d-flex justify-content-center align-item-center'>
-            <img :src="avatarSource" class='uploading-image' name='avatar'/>
+            <img :src="this.previewAvatar" class='uploading-image' name='avatar'/>
           </div>
           <div id='button-upload'>
             <div class='d-flex justify-content-center'>
@@ -105,52 +105,39 @@
     data() {
       return {
         date: new Date(2016, 9,  16),
-        previewImage: defaultAvatar,
-        loaded: false,
+        avatar: null,
+        defaultAvatar: defaultAvatar,
+        previewAvatar: null,
         errorMessages: {},
       }
     },
     computed: {
       ...mapGetters({
-        currentUser: 'currentUser/current_user',
+        currentUser: 'currentUser/current_user'
       }),
-      avatarSource() {
-        return this.currentUser.avatar_url ? this.currentUser.avatar_url : defaultAvatar
-      }
     },
-    created() {
-      this.getCurrentUser()
-      this.targetUser = this.currentUser
+    async mounted() {
+      this.turnOnLoading()
+      await this.getCurrentUser()
+      this.previewAvatar = this.currentUser.avatar_url || this.defaultAvatar
+      this.turnOffLoading()
     },
-
     methods: {
       ...mapActions({
-        getCurrentUser: 'currentUser/getCurrentUser'
+        getCurrentUser: 'currentUser/getCurrentUser',
+        turnOnLoading: 'loader/turnOn',
+        turnOffLoading: 'loader/turnOff',
       }),
       async updateProfile() {
         let data = new FormData();
-        let userAttributes = [
-          {"first_name": this.currentUser.first_name},
-          {"last_name": this.currentUser.last_name},
-          {"phone_numbers": this.currentUser.phone_numbers},
-          {"birth_day": this.currentUser.birth_day},
-          {"avatar": this.currentUser.avatar_url}
-        ]
-
-        for (var i = 0; i < userAttributes.length; i++) {
-          for (var key in userAttributes[i]) {
-            let userAttr = key
-            let userValue = userAttributes[i][key]
-            if(userValue === null || userValue === undefined || (userAttr == "avatar" && !(userValue instanceof File))){
-              data.delete(userAttr);
-            } else {
-              data.append(userAttr, userValue)
-            }
-          }
-        }
+        data.append('first_name', this.currentUser.first_name || '')
+        data.append('last_name', this.currentUser.last_name || '')
+        data.append('phone_numbers', this.currentUser.phone_numbers || '')
+        data.append('birth_day', this.currentUser.birth_day || '')
+        if(this.currentUser.avatar_url instanceof File) data.append('avatar', this.currentUser.avatar_url || null)
 
         await StaffApi.updateProfile(data).then(response => {
-          this.$router.push('/profile')
+          this.$router.push({ name: 'profile' })
           this.toast.success(`${this.$t('profile.update_success')}`, {
             timeout: 2000
           });
@@ -164,7 +151,7 @@
         const reader = new FileReader();
         reader.readAsDataURL(this.currentUser.avatar_url);
         reader.onload = e =>{
-          this.previewImage = e.target.result;
+          this.previewAvatar = e.target.result;
           this.errorMessages = {}
         };
       },
