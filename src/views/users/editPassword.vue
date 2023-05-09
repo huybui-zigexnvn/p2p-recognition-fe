@@ -74,14 +74,14 @@
     components: { InvalidFieldErrorMessage },
     methods: {
       async updatePassword() {
-        let paramsUpdatePassword = {current_password: this.currentPassword, new_password: this.newPassword, password_confirmation: this.passwordConfirmation}
+        let paramsUpdatePassword = { current_password: this.currentPassword, new_password: this.newPassword, password_confirmation: this.passwordConfirmation }
         await StaffApi.updatePassword(paramsUpdatePassword).then(response => {
           if(response.data.error){
               this.toast.error(`${this.$t('update_password.failed')}`)
               return;
             } else {
               window.localStorage.setItem('token', '');
-              this.$router.push('/login')
+              this.$router.push({ name: 'login' })
               this.toast.success(`${this.$t('update_password.success')}`, {
                 timeout: 2000
               });
