@@ -9,6 +9,7 @@
       "email": "Email",
       "search_placeholder": "Tìm kiếm...",
       "no_records_message": "Không có bản ghi nào",
+      "status": "Trạng thái",
       "form_create": {
         "title": "Thêm nhân viên",
         "email": "Địa chỉ email",
@@ -61,11 +62,12 @@
   "profile": {
     "email": "Email",
     "full_name": "Họ tên",
+    "phone_number": "Số điện thoại",
+    "birthday": "Ngày sinh",
     "role": "Vai trò",
     "button": {
       "edit": "Sửa",
-      "update": "Cập nhật",
-      "edit_password": "Đổi mật khẩu"
+      "update": "Cập nhật"
     },
     "update_failed": "Cập nhật lỗi",
     "update_success": "Cập nhật thành công"
