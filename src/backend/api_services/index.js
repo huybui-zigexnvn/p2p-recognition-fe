@@ -9,7 +9,7 @@ const ApiService = {
         if(!!window.localStorage.getItem('token')){
           config.headers.Authorization = window.localStorage.getItem('token')
         }
-        config.headers['Content-Type'] = 'application/json'
+        config.headers['Content-Type'] = 'multipart/form-data'
         return config;
       }
     );

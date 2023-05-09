@@ -50,7 +50,7 @@
     "password_confirmation": {
       "placeholder": "Xác nhận mật khẩu"
     },
-    "success": "Change password successfully, please login",
+    "success": "Đổi mật khẩu thành công, vui lòng đăng nhập",
     "failed": "Thay đổi mật khẩu không thành công"
   },
   "page_not_found": {
@@ -58,5 +58,18 @@
     "you_lost": "Ồ!! Bạn đã bị lạc lối",
     "description": "Không tìm thấy trang bạn đang tìm kiếm.",
     "button_home_page": "Trở về trang chủ"
+  },
+  "profile": {
+    "email": "Email",
+    "full_name": "Họ tên",
+    "phone_number": "Số điện thoại",
+    "birthday": "Ngày sinh",
+    "role": "Vai trò",
+    "button": {
+      "edit": "Sửa",
+      "update": "Cập nhật"
+    },
+    "update_failed": "Cập nhật lỗi",
+    "update_success": "Cập nhật thành công"
   }
 }
