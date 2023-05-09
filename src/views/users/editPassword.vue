@@ -69,7 +69,7 @@
         passwordConfirmation: '',
         wrongCurrentPassword: '',
         errorMessages: {},
-      } 
+      }
     },
     components: { InvalidFieldErrorMessage },
     methods: {
@@ -87,7 +87,6 @@
               });
             }
         }).catch(error => {
-          console.log(error)
           if (error.response.status === 401){
             this.wrongCurrentPassword = error.response.data.message
           }

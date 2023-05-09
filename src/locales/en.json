@@ -67,7 +67,8 @@
     "role": "Role",
     "button": {
       "edit": "Edit",
-      "update": "Update"
+      "update": "Update",
+      "edit_password": "Update password"
     },
     "update_failed": "Update failed",
     "update_success": "Update successfully"

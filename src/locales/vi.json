@@ -67,7 +67,8 @@
     "role": "Vai trò",
     "button": {
       "edit": "Sửa",
-      "update": "Cập nhật"
+      "update": "Cập nhật",
+      "edit_password": "Đổi mật khẩu"
     },
     "update_failed": "Cập nhật lỗi",
     "update_success": "Cập nhật thành công"
