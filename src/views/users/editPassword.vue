@@ -16,7 +16,6 @@
                       <input v-model="currentPassword" :placeholder="$t('update_password.placeholder.current_password')" class="form-control" type="password" name="current_password" required />
                     </div>
                     <span v-if="this.wrongCurrentPassword.length > 1" class="text-danger">{{ this.wrongCurrentPassword }}</span>
-                    <InvalidFieldErrorMessage errorField="password" :errorMessages="errorMessages"></InvalidFieldErrorMessage>
                   </div>
                   <div class="mb-4">
                     <div class="input-group ">
@@ -76,17 +75,14 @@
       async updatePassword() {
         let paramsUpdatePassword = { current_password: this.currentPassword, new_password: this.newPassword, password_confirmation: this.passwordConfirmation }
         await StaffApi.updatePassword(paramsUpdatePassword).then(response => {
-          if(response.data.error){
-              this.toast.error(`${this.$t('update_password.failed')}`)
-              return;
-            } else {
-              window.localStorage.setItem('token', '');
-              this.$router.push({ name: 'login' })
-              this.toast.success(`${this.$t('update_password.success')}`, {
-                timeout: 2000
-              });
-            }
+
+          window.localStorage.setItem('token', '');
+          this.$router.push({ name: 'Login' })
+          this.toast.success(`${this.$t('update_password.success')}`, {
+            timeout: 2000
+          });
         }).catch(error => {
+          this.toast.error(`${this.$t('update_password.failed')}`)
           if (error.response.status === 401){
             this.wrongCurrentPassword = error.response.data.message
           }
