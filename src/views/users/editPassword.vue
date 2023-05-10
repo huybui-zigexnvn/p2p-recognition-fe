@@ -15,7 +15,7 @@
                       </span>
                       <input v-model="currentPassword" :placeholder="$t('update_password.placeholder.current_password')" class="form-control" type="password" name="current_password" required />
                     </div>
-                    <span v-if="this.wrongCurrentPassword.length > 1" class="text-danger">{{ this.wrongCurrentPassword }}</span>
+                    <span v-if="this.wrongCurrentPassword.length" class="text-danger">{{ this.wrongCurrentPassword }}</span>
                   </div>
                   <div class="mb-4">
                     <div class="input-group ">
