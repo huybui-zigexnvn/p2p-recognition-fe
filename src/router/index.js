@@ -1,36 +1,44 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
 import pageNotFound from '@/views/pageNotFound'
+import listStaff from '@/views/admin/ListStaffs.vue'
+import Profile from '@/views/users/profile'
+import editProfile from '@/views/users/editProfile'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: DefaultLayout,
-    redirect: '/admin/list_staffs',
-    children: [
-      {
-        path: '/admin/list_staffs',
-        name: 'List Staffs',
-        component: () => import('@/views/admin/ListStaffs.vue'),
-      }
-    ]
+    path: '/admin/list_staffs',
+    meta: { layout:"defaultLayout" },
+    component: listStaff
   },
   {
-    path: '/login', 
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/change_password', 
+    path: '/change_password',
     name: 'ChangePassword',
     component: ChangePassword
   },
   {
-    path: '/:pathMatch(.*)*', 
+    path: '/profile',
+    name: 'profile',
+    meta: { layout:"defaultLayout" },
+    component: Profile
+  },
+  {
+    path: '/edit-profile',
+    name: 'Edit Profile',
+    meta: { layout:"defaultLayout" },
+    component: editProfile
+  },
+  {
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: pageNotFound
   }

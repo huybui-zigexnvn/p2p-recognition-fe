@@ -1,4 +1,5 @@
 import axios from 'axios';
+import router from '../../router'
 
 const ApiService = {
   init(baseURL) {
@@ -8,10 +9,16 @@ const ApiService = {
         if(!!window.localStorage.getItem('token')){
           config.headers.Authorization = window.localStorage.getItem('token')
         }
-        config.headers['Content-Type'] = 'application/json'
+        config.headers['Content-Type'] = 'multipart/form-data'
         return config;
       }
     );
+    axios.interceptors.response.use(function (response) {
+      return response;
+    }, function (error) {
+      if (error.response.status == 403) router.push("/not-found");
+      return Promise.reject(error);
+    });
   },
 
   get(resource, params={}) {
