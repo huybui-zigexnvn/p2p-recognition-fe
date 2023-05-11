@@ -1,65 +1,50 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DefaultLayout from '@/layouts/DefaultLayout'
 import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
 import pageNotFound from '@/views/pageNotFound'
+import listStaff from '@/views/admin/staffs/ListStaffs.vue'
+import Profile from '@/views/users/profile'
+import editProfile from '@/views/users/editProfile'
 
 const routes = [
   {
     path: '/',
     name: 'Home',
-    component: DefaultLayout,
-    redirect: '/admin/staffs',
-    children: [
-      {
-        path: 'admin/staffs',
-        name: 'List Staffs',
-        component: () => import('@/views/admin/staffs/ListStaffs.vue'),
-      },
-      {
-        path: 'admin/staffs/:id',
-        name: 'Staff Profile',
-        component: () => import('@/views/admin/staffs/StaffProfile.vue'),
-      }
-    ]
+    path: '/admin/staffs',
+    meta: { layout:"defaultLayout" },
+    component: listStaff
   },
   {
-    path: '/login', 
+    path: '/admin/staffs/:id',
+    name: 'Staff Profile',
+    meta: { layout:"defaultLayout" },
+    component: () => import('@/views/admin/staffs/StaffProfile.vue'),
+  },
+  {
+    path: '/login',
     name: 'Login',
     component: Login
   },
   {
-    path: '/change_password', 
+    path: '/change_password',
     name: 'ChangePassword',
     component: ChangePassword
   },
   {
-    path: '/profile', 
-    name: 'Profile',
-    component: DefaultLayout,
-    redirect: '/profile',
-    children: [
-      {
-        path: '/profile',
-        component: () => import('@/views/users/profile'),
-      }
-    ]
+    path: '/profile',
+    name: 'profile',
+    meta: { layout:"defaultLayout" },
+    component: Profile
   },
   {
-    path: '/edit-profile', 
+    path: '/edit-profile',
     name: 'Edit Profile',
-    component: DefaultLayout,
-    redirect: '/edit-profile',
-    children: [
-      {
-        path: '/edit-profile',
-        component: () => import('@/views/users/editProfile'),
-      }
-    ]
+    meta: { layout:"defaultLayout" },
+    component: editProfile
   },
   {
-    path: '/:pathMatch(.*)*', 
+    path: '/:pathMatch(.*)*',
     name: 'NotFound',
     component: pageNotFound
   }

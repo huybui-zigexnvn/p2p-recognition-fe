@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loader></Loader>
     <AppSidebar />
     <div class="wrapper d-flex flex-column min-vh-100 bg-light">
       <AppHeader />
@@ -15,6 +16,7 @@
 import { CContainer } from '@coreui/vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
+import Loader from '@/components/Loader'
 
 export default {
   name: 'DefaultLayout',
@@ -22,6 +24,7 @@ export default {
     AppHeader,
     AppSidebar,
     CContainer,
-  },
+    Loader
+  }
 }
 </script>

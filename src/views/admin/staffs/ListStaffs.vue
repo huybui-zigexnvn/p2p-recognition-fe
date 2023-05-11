@@ -6,7 +6,7 @@
         <input class="form-control search-input" :placeholder="$t('admin.list_staff.search_placeholder')" v-model="searchValue" @keyup="searchStaff" />
       </div>
     </div>
-    <div class="d-flex justify-content-end align-items-center">
+    <div v-if="$ability.can('manage', 'staff')" class="d-flex justify-content-end align-items-center">
       <button class="btn btn-primary btn-add-staff" @click="openModal()">{{ $t('admin.list_staff.create_staff') }}</button>
     </div>
   </div>
@@ -35,7 +35,7 @@
       <div class="col col-3 text-truncate"><router-link :to="{name: 'Staff Profile', params: {id: staff['id']}}">{{staff['email']}}</router-link></div>
       <div class="col col-2">
         <label class="toggle">
-          <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change=" switchStatusStaff(staff)">
+          <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change="switchStatusStaff(staff)">
           <div class="toggle-switch"></div>
         </label>
       </div>
