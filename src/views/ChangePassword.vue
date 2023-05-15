@@ -71,7 +71,7 @@
             return;
           } else {
             window.localStorage.setItem('token', '');
-            this.$router.push('/login')
+            this.$router.push({ name: 'login' })
             this.toast.success(`${this.$t('change_password.success')}`, {
               timeout: 2000
             });
