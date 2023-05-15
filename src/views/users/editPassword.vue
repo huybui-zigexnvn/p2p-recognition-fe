@@ -85,7 +85,10 @@
           this.toast.error(`${this.$t('update_password.failed')}`)
           if (error.response.status === 401){
             this.wrongCurrentPassword = error.response.data.message
+          } else {
+            this.wrongCurrentPassword = {}
           }
+
           if (error.response.data.message) {
             this.errorMessages = error.response.data.message
           }
