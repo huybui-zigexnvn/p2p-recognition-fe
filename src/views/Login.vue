@@ -69,7 +69,7 @@
               return;
             } else {
               window.localStorage.setItem('token', response.data.json.token);
-              this.$router.push('/')
+              this.$router.push({ name: 'home'})
             }
           })
         } catch (error) {

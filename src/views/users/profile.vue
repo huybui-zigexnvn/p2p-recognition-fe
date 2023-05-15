@@ -56,8 +56,13 @@
       </div>
     </div>
     <div class="d-flex justify-content-center pt-5">
-      <button type="button" @click="redirectEditProfile" class="btn btn-info button-edit">{{ $t('profile.button.edit') }}</button>
-      <button type="button" @click="redirectEditPassword" class="btn btn-warning button-edit-password">{{ $t('profile.button.edit_password') }}</button>
+      <router-link to="/edit-profile">
+        <button type="button" class="btn btn-info button-edit">{{ $t('profile.button.edit') }}</button>
+      </router-link>
+
+      <router-link to="/edit-password">
+        <button type="button" class="btn btn-warning button-edit-password">{{ $t('profile.button.edit_password') }}</button>
+      </router-link>
     </div>
   </div>
 </template>
@@ -100,13 +105,7 @@ export default {
       getCurrentUser: 'currentUser/getCurrentUser',
       turnOnLoading: 'loader/turnOn',
       turnOffLoading: 'loader/turnOff',
-    }),
-    redirectEditProfile() {
-      this.$router.push({ name: 'Edit profile' })
-    },
-    redirectEditPassword() {
-      this.$router.push({ name: 'Edit password' })
-    }
+    })
   }
 }
 </script>

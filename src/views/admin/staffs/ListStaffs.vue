@@ -206,7 +206,7 @@ export default {
     this.currentPage = parseInt(this.$route.query.page) || 0
     if (this.currentPage < 1) {
       this.currentPage = 1
-      this.$router.push({ name: 'Home', query: { q: this.currentSearch } })
+      this.$router.push({ name: 'staffs', query: { q: this.currentSearch } })
     }
 
     await this.getStaffList({page: this.currentPage, q: this.currentSearch})

@@ -11,7 +11,11 @@ import editPassword from '@/views/users/editPassword'
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
+    redirect: '/profile' },
+  {
+    path: '/',
+    name: 'staffs',
     path: '/admin/staffs',
     meta: { layout:"defaultLayout" },
     component: listStaff
@@ -24,7 +28,7 @@ const routes = [
   },
   {
     path: '/login',
-    name: 'Login',
+    name: 'login',
     component: Login
   },
   {
