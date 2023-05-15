@@ -24,14 +24,15 @@
     </div>
     <div class="table-row row" data-url="" v-for="staff in staffList" :key="staff">
       <div class="col col-1 text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+        <img :src="staff.avatar_url" width="16" height="16" viewBox="0 0 16 16" v-if="staff.avatar_url">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" v-else>
           <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
           <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
         </svg>
       </div>
       <div class="col col-3 text-truncate">{{staff['first_name']}}</div>
       <div class="col col-3 text-truncate">{{staff['last_name']}}</div>
-      <div class="col col-3 text-truncate">{{staff['email']}}</div>
+      <div class="col col-3 text-truncate"><router-link :to="{name: 'Staff Profile', params: {id: staff['id']}}">{{staff['email']}}</router-link></div>
       <div class="col col-2">
         <label class="toggle">
           <input class="toggle-checkbox" type="checkbox" v-model="staff['status']" true-value="enable" false-value="disable" v-on:change="switchStatusStaff(staff)">
@@ -201,7 +202,7 @@ export default {
     }
   },
 
-  async mounted() {
+  async created() {
     this.currentPage = parseInt(this.$route.query.page) || 0
     if (this.currentPage < 1) {
       this.currentPage = 1

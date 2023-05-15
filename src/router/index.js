@@ -3,7 +3,7 @@ import Login from '@/views/Login'
 import qs from 'qs';
 import ChangePassword from '@/views/ChangePassword'
 import pageNotFound from '@/views/pageNotFound'
-import listStaff from '@/views/admin/ListStaffs.vue'
+import listStaff from '@/views/admin/staffs/ListStaffs.vue'
 import Profile from '@/views/users/profile'
 import editProfile from '@/views/users/editProfile'
 
@@ -11,9 +11,15 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    path: '/admin/list_staffs',
+    path: '/admin/staffs',
     meta: { layout:"defaultLayout" },
     component: listStaff
+  },
+  {
+    path: '/admin/staffs/:id',
+    name: 'Staff Profile',
+    meta: { layout:"defaultLayout" },
+    component: () => import('@/views/admin/staffs/StaffProfile.vue'),
   },
   {
     path: '/login',
