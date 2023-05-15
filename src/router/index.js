@@ -6,6 +6,7 @@ import pageNotFound from '@/views/pageNotFound'
 import listStaff from '@/views/admin/staffs/ListStaffs.vue'
 import Profile from '@/views/users/profile'
 import editProfile from '@/views/users/editProfile'
+import editPassword from '@/views/users/editPassword'
 
 const routes = [
   {
@@ -43,9 +44,15 @@ const routes = [
   },
   {
     path: '/edit-profile',
-    name: 'Edit Profile',
+    name: 'Edit profile',
     meta: { layout:"defaultLayout" },
     component: editProfile
+  },
+  {
+    path: '/edit-password',
+    name: 'Edit password',
+    meta: { layout:"defaultLayout" },
+    component: editPassword
   },
   {
     path: '/:pathMatch(.*)*',

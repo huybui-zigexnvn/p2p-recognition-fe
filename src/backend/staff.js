@@ -9,6 +9,9 @@ const StaffApi = {
   },
   updateProfile: function( params ){
     return ApiService.put('/update_profile', params)
+  },
+  updatePassword: function( params ){
+    return ApiService.put('/update_password', params)
   }
 }
 

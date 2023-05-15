@@ -59,6 +59,10 @@
       <router-link to="/edit-profile">
         <button type="button" class="btn btn-info button-edit">{{ $t('profile.button.edit') }}</button>
       </router-link>
+
+      <router-link to="/edit-password">
+        <button type="button" class="btn btn-warning button-edit-password">{{ $t('profile.button.edit_password') }}</button>
+      </router-link>
     </div>
   </div>
 </template>
