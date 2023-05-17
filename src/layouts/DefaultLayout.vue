@@ -29,13 +29,13 @@ export default {
     Loader
   },
   async created() {
-      let role = ''
-      await AuthApi.getCurrentUser().then(response => {
-              role = response.data.role
-            }).catch(error => {
-              console.log(error)
-            })
-      defineAbilityFor(role)
+    let role = ''
+    await AuthApi.getCurrentUser().then(response => {
+      role = response.data.role
+    }).catch(error => {
+      console.log(error)
+    })
+    defineAbilityFor(role)
     }
 }
 </script>
