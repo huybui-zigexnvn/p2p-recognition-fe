@@ -77,7 +77,7 @@
         await StaffApi.updatePassword(paramsUpdatePassword).then(response => {
 
           window.localStorage.setItem('token', '');
-          this.$router.push({ name: 'Login' })
+          this.$router.push({ name: 'login' })
           this.toast.success(`${this.$t('update_password.success')}`, {
             timeout: 2000
           });

@@ -2,27 +2,19 @@
   <DefaultLayout v-if="this.$route.meta.layout==='defaultLayout'">
     <router-view></router-view>
   </DefaultLayout>
-  <router-view v-else></router-view>
+  <LayoutWithoutLogin v-else>
+    <router-view></router-view>
+  </LayoutWithoutLogin>
 </template>
 
 <script>
-  import AuthApi from "@/backend/auth";
-  import defineAbilityFor from '@/services/ability'
   import DefaultLayout from './layouts/DefaultLayout'
+  import LayoutWithoutLogin from './layouts/LayoutWithoutLogin'
 
   export default {
 
     name: 'App',
-    components: { DefaultLayout },
-    async created() {
-      let role = ''
-      await AuthApi.getCurrentUser().then(response => {
-              role = response.data.role
-            }).catch(error => {
-              console.log(error)
-            })
-      defineAbilityFor(role)
-    }
+    components: { DefaultLayout, LayoutWithoutLogin }
   }
 
 </script>

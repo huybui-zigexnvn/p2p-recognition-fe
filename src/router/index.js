@@ -29,11 +29,13 @@ const routes = [
   {
     path: '/login',
     name: 'login',
+    meta: { layout:"LayoutWithoutLogin" },
     component: Login
   },
   {
     path: '/change_password',
     name: 'ChangePassword',
+    meta: { layout:"LayoutWithoutLogin" },
     component: ChangePassword
   },
   {
@@ -86,7 +88,7 @@ router.resolve({
 export default router
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'Login' && to.name !== 'ChangePassword' && to.name !== 'NotFound' && !window.localStorage.getItem('token')) next({name: 'Login'})
-  else if (to.name == 'Login' && window.localStorage.getItem('token')) next('/')
+  if (to.name !== 'login' && to.name !== 'ChangePassword' && to.name !== 'NotFound' && !window.localStorage.getItem('token')) next({name: 'Login'})
+  else if (to.name == 'login' && window.localStorage.getItem('token')) next('/')
   else next()
 })

@@ -16,6 +16,7 @@ import en from "./locales/en.json";
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import DefaultLayout from './layouts/DefaultLayout'
+import LayoutWithoutLogin from './layouts/LayoutWithoutLogin'
 import { abilitiesPlugin } from '@casl/vue';
 import ability from './services/ability';
 
@@ -39,6 +40,7 @@ app.use(i18n)
 app.provide('icons', icons)
 app.component('CIcon', CIcon)
 app.component('DefaultLayout', DefaultLayout)
+app.component('LayoutWithoutLogin', LayoutWithoutLogin)
 app.use(abilitiesPlugin, ability(), {
   useGlobalProperties: true
 })
