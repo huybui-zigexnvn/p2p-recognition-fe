@@ -40,7 +40,7 @@
               <label>{{ $t('profile.birthday') }}</label>
             </div>
             <div class='col-md-10'>
-              {{ this.defaultDateFormat(new Date(this.currentUser.birth_day)) }}
+              {{ this.birth_day }}
             </div>
           </div>
           <hr>
@@ -87,6 +87,7 @@ export default {
       errorMessages: {},
       defaultAvatar: defaultAvatar,
       previewAvatar: null,
+      birth_day: ''
     }
   },
   computed: {
@@ -98,6 +99,7 @@ export default {
       this.turnOnLoading()
       await this.getCurrentUser()
       this.previewAvatar = this.currentUser.avatar_url || this.defaultAvatar
+      this.date_of_birth(this.currentUser.birth_day)
       this.turnOffLoading()
     },
   methods: {
@@ -105,7 +107,10 @@ export default {
       getCurrentUser: 'currentUser/getCurrentUser',
       turnOnLoading: 'loader/turnOn',
       turnOffLoading: 'loader/turnOff',
-    })
+    }),
+    date_of_birth(date) {
+      if (date) { this.birth_day = this.defaultDateFormat(new Date(this.currentUser.birth_day)) }
+    }
   }
 }
 </script>
