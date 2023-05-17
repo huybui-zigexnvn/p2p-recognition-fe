@@ -17,6 +17,8 @@ import { CContainer } from '@coreui/vue'
 import AppHeader from '@/components/AppHeader.vue'
 import AppSidebar from '@/components/AppSidebar.vue'
 import Loader from '@/components/Loader'
+import AuthApi from "@/backend/auth";
+import defineAbilityFor from '@/services/ability'
 
 export default {
   name: 'DefaultLayout',
@@ -25,6 +27,15 @@ export default {
     AppSidebar,
     CContainer,
     Loader
-  }
+  },
+  async created() {
+      let role = ''
+      await AuthApi.getCurrentUser().then(response => {
+              role = response.data.role
+            }).catch(error => {
+              console.log(error)
+            })
+      defineAbilityFor(role)
+    }
 }
 </script>
